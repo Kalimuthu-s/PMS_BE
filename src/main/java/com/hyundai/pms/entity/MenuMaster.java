@@ -26,9 +26,7 @@ public class MenuMaster {
 	private int menuId;
 	@Column(name = "menu_name")
 	private String menuName;
-	@Column(name = "accessibility")
-	private String accessibility;
 	@Column(name = "role_id")
-	private int roleId;
+	private String roleId;
 
 }

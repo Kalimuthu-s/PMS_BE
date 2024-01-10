@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.TeamMaster;
@@ -18,6 +19,7 @@ import com.hyundai.pms.service.TeamService;
 
 @CrossOrigin
 @RestController
+@RequestMapping(value = "/team")
 public class TeamController {
 	
 	@Autowired
