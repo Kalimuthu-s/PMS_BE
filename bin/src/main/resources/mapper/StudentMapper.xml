@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:\Users\2008488\eclipse-workspace\mybatistest\src\main\resources\mapper\mybatis-3-mapper.dtd">
+<mapper namespace="com.sathish.angulartest.mapper.StudentMapper">
+	<resultMap id="StudentResultMap" type="com.sathish.angulartest.entity.Student">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name, email, password
+	</sql>
+	<select id="findAllStudents">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM student
+	</select>
+	<select id="findStudentsById">
+	SELECT * FROM student WHERE id=#{id}
+	</select>
+	<insert id="insertStudent">
+		INSERT INTO student(name, email, password) VALUES(#{name},#{email},#{password})
+	</insert>
+	<update id="updateStudent">
+		UPDATE student SET name=#{name}, email=#{email}, password=#{password} WHERE id=#{id}
+	</update>
+	<delete id="deleteStudent">
+		DELETE FROM student WHERE id =#{id}
+	</delete>
+	<select id="findByUsername" resultType="com.sathish.angulartest.entity.UserInfo" >
+	SELECT * FROM user WHERE username=#{username}
+	</select>
+	<insert id="saveUserLoginCred">
+		INSERT INTO user(username,password,roles) VALUES(#{username},#{password},#{roles})
+	</insert>
+</mapper>
