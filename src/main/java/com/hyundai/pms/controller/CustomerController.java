@@ -20,7 +20,7 @@ import com.hyundai.pms.service.CustomerService;
 
 
 @RestController
-@RequestMapping("/Customer")
+@RequestMapping("/customer")
 @CrossOrigin(value="http://localhost:4200/")
 public class CustomerController {
 

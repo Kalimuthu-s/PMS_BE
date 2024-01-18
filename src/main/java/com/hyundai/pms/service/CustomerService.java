@@ -21,7 +21,7 @@ public class CustomerService {
 	 public Response saveCustomer(CustomerMaster customer) {
 		   validateCustomer(customer);
 	         customerrepository.save(customer);
-	         return new Response(1,"success",customer,true);
+	         return new Response(1,"success",customer);
 	    }
 
 	 public List<CustomerMaster> getAllCustomers() {
@@ -36,9 +36,9 @@ public class CustomerService {
 	        if (customerrepository.existsById(customerId)) {
 	            updatedCustomer.setCustomerId(customerId);
 	            customerrepository.save(updatedCustomer);
-	            return new Response(1,"success",updatedCustomer,true);
+	            return new Response(1,"success",updatedCustomer);
 	        } else {
-	            return new Response(2,"error",updatedCustomer,false);
+	            return new Response(2,"error",updatedCustomer);
 	        }
 	    }
 	 

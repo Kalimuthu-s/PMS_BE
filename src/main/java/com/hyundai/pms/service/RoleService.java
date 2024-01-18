@@ -22,7 +22,7 @@ public class RoleService {
 	 public Response saveRole(RoleMaster role) {
 	         roleRepository.save(role);
 	         logger.info("Experience saved successfully: {}", role);
-	         return new Response(1, "success", role, true);
+	         return new Response(1, "success", role);
 	    }
 	 
 	 public List<RoleMaster> getAllRoles() {
@@ -38,11 +38,11 @@ public class RoleService {
 	            updatedRole.setRoleId(roleId);
 	             roleRepository.save(updatedRole);
 	             logger.info("Experience updated successfully: {}", updatedRole);
-	             return new Response(1, "success", updatedRole, true);
+	             return new Response(1, "success", updatedRole);
 	        } else {
 	            // Handle not found scenario
 	        	logger.error("Experience with ID {} not found during update.", roleId);
-	            return new Response(2, "Error", updatedRole, false);
+	            return new Response(2, "Error", updatedRole);
 	        }
 	    }
 	 

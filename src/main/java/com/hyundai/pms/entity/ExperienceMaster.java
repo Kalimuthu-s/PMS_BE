@@ -6,20 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name ="experience_master" )
 public class ExperienceMaster {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "exp_id")
     private Long experienceId;
 
-    @Column
+    @Column(name = "exp_level")
     private String experienceLevel;
 
-    @Column
+    @Column(name = "no_of_years")
     private String noOfYears;
-
-    @Column
-    private String designationId;
 
 	public Long getExperienceId() {
 		return experienceId;
@@ -45,11 +43,4 @@ public class ExperienceMaster {
 		this.noOfYears = noOfYears;
 	}
 
-	public String getDesignationId() {
-		return designationId;
-	}
-
-	public void setDesignationId(String designationId) {
-		this.designationId = designationId;
-	}
 }

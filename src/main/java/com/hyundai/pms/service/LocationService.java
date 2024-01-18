@@ -23,7 +23,7 @@ public class LocationService {
 		public Response saveLocation(LocationMaster location) {
          locationRepository.save(location);
          logger.info("Experience saved successfully: {}", location);
-         return new Response(1,"success",location,true);
+         return new Response(1,"success",location);
 		}
 		
 		
@@ -45,10 +45,10 @@ public class LocationService {
 	            updatedLocation.setLocationId(locationId);
 	            updatedLocation=  locationRepository.save(updatedLocation);
 	        	logger.info("Experience updated successfully: {}", updatedLocation);
-	            return new Response(1,"success",updatedLocation,true);
+	            return new Response(1,"success",updatedLocation);
 	        } else {
 	        	 logger.error("Experience with ID {} not found during update.", locationId);
-	            return new Response(2,"error",updatedLocation,false);
+	            return new Response(2,"error",updatedLocation);
 	        }
 		}
 
@@ -56,10 +56,10 @@ public class LocationService {
 		public Response deleteLocation(Long locationId) {
 			 if (locationRepository.existsById(locationId)) {
 				 locationRepository.deleteById(locationId);
-		        return new Response(1,"success",null,true);
+		        return new Response(1,"success",null);
 		        }
 			 else {
-				 return new Response(2,"error",null,false);
+				 return new Response(2,"error",null);
 			 }
 		}
 }

@@ -13,5 +13,9 @@ public interface ProjectManagerTransactionRepository extends JpaRepository<Proje
 	
 	@Query(value = "select * from project_manager_transaction where manager_id=?1", nativeQuery = true)
 	List<ProjectManagerTransaction> getManagerAvaiableProjects(String manager);
+	
+	
+	@Query(value = "select * from project_manager_transaction where proj_man_trans_id=?1", nativeQuery = true)
+	ProjectManagerTransaction getOneById(int id);
 
 }

@@ -32,7 +32,5 @@ public class Response {
 		this.message = message;
 		this.data = data;
 	}
-	public Response(int i, String string, Object object, boolean b) {
-		// TODO Auto-generated constructor stub
-	}
+
 }

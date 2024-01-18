@@ -1,6 +1,7 @@
 package com.hyundai.pms.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.ProjectManagerTransaction;
+import com.hyundai.pms.entity.ProjectReassignDTO;
 import com.hyundai.pms.service.ProjectManagerTransactionService;
 
 @CrossOrigin
@@ -28,11 +30,9 @@ public class ProjectManagerTransactionController {
 		return list;
 	}
 	
-	@GetMapping("/getAllProjectManagerTransaction/{id}")
-	public ProjectManagerTransaction getProjectManagerTransactionById(@PathVariable int id) {
-		ProjectManagerTransaction pmt=ps.getProjectManagerTransactionById(id);
-		return pmt;
-		
+	@GetMapping("/getProjectManagerTransaction/{id}")
+	public Optional<ProjectManagerTransaction> getProjectManagerTransactionById(@PathVariable int id) {
+		return ps.getProjectManagerTransactionById(id);	 
 	}
 	
 	@PostMapping("/addProjectManagerTransaction")
@@ -56,5 +56,10 @@ public class ProjectManagerTransactionController {
 		return ps.getManagerAvaiableProjects(manager);
 	}
 	
+	@PostMapping("/reassignManagerToProjects")
+	public String reassignManagerToProjects(@RequestBody ProjectReassignDTO data) { 
+		return ps.reassignManagerToProjects(data);
+		 
+	}
 
 }
