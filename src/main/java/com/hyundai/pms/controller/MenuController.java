@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.MenuMaster;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.UserResponse;
 import com.hyundai.pms.service.MenuService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @CrossOrigin
 @RestController
@@ -28,37 +30,40 @@ public class MenuController {
 	private MenuService ms;
 
 
-	@GetMapping("/getAllMenu")
-	public List<Map<String, Object>> getAllMenu() {
-		return ms.getAllMenu();
+	@PostMapping("/getAllMenu")
+	public Response getAllMenu(@RequestBody PaginationWebModel paginationWebModel) {
+		return ms.getAllMenu(paginationWebModel);
 	}
 
 	@GetMapping("/getMenuById/{id}")
-	public Optional<MenuMaster> getMenuById(@PathVariable int id) {
+	public Response getMenuById(@PathVariable int id) {
 		Optional<MenuMaster> menu = ms.getMenuById(id);
-		return menu;
+		return new Response(1, "Success", menu);
 
 	}
 
 	@GetMapping("/getMenuByRole/{role}")
-	public List<MenuMaster> getMenuByRole(@PathVariable String role){
-		return ms.getMenuByRole(role);
+	public Response getMenuByRole(@PathVariable String role){
+		List<MenuMaster>menu= ms.getMenuByRole(role);
+		return new Response(1, "Success", menu);
 	}
 
 	@PostMapping("/addMenu")
-	public MenuMaster addMenu(@RequestBody MenuMaster menu) {
-		return ms.addMenu(menu);
+	public Response addMenu(@RequestBody MenuMaster menu) {
+		ms.addMenu(menu);
+		return new Response(1, "Success", menu);
 	}
 
 	@PutMapping("/updateMenu")
-	public MenuMaster updateMenu(@RequestBody MenuMaster menu) {
-		return ms.updateMenu(menu);
+	public Response updateMenu(@RequestBody MenuMaster menu) {
+		ms.updateMenu(menu);
+		return new Response(1, "Success", menu);
 	}
 
 	@DeleteMapping("/deleteMenu/{id}")
-	public UserResponse deleteMenu(@PathVariable int id) {
+	public Response deleteMenu(@PathVariable int id) {
 		ms.deleteMenu(id);
-		return new UserResponse(1, "Menu Deleted", null, true);
+		return new Response(1, "Success", id);
 	}
 
 }

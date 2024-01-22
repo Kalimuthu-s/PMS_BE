@@ -18,38 +18,41 @@ import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.RoleMaster;
 import com.hyundai.pms.service.RoleService;
 
-
-
 @RestController
-@RequestMapping("/Role")
-@CrossOrigin(value="http://localhost:4200/")
+@RequestMapping("/role")
+@CrossOrigin(value = "http://localhost:4200/")
 public class RoleController {
 
 	@Autowired
 	RoleService roleService;
-	
+
 	@PostMapping("/addRole")
-    public Response addRole(@RequestBody RoleMaster role) {
-        return roleService.saveRole(role);
-    }
-	
+	public Response addRole(@RequestBody RoleMaster role) {
+		roleService.saveRole(role);
+		return new Response(1, "Success", role);
+	}
+
 	@GetMapping("/getAllRoles")
-    public List<RoleMaster> getAllRoles() {
-        return roleService.getAllRoles();
-    }
-	
+	public Response getAllRoles() {
+		List<RoleMaster> role = roleService.getAllRoles();
+		return new Response(1, "Success", role);
+	}
+
 	@GetMapping("/getRoleById/{id}")
-	public Optional<RoleMaster> getRoleById(@PathVariable Long id) {
-	     return roleService.getRoleById(id);
-	 }
-	
-	 @PutMapping("/updateRole/{id}")
-	 public Response updateRole(@PathVariable Long id, @RequestBody RoleMaster updatedRole) {
-	      return roleService.updateRole(id, updatedRole);
-	 }
-	 
-	 @DeleteMapping("/deleteRole/{id}")
-	 public String deleteRole(@PathVariable Long id) {
-	       return roleService.deleteRole(id);
-	 }
+	public Response getRoleById(@PathVariable Long id) {
+		Optional<RoleMaster> role = roleService.getRoleById(id);
+		return new Response(1, "Success", role);
+	}
+
+	@PutMapping("/updateRole/{id}")
+	public Response updateRole(@PathVariable Long id, @RequestBody RoleMaster updatedRole) {
+		roleService.updateRole(id, updatedRole);
+		return new Response(1, "Success", updatedRole);
+	}
+
+	@DeleteMapping("/deleteRole/{id}")
+	public Response deleteRole(@PathVariable Long id) {
+		roleService.deleteRole(id);
+		return new Response(1, "Success", id);
+	}
 }

@@ -21,9 +21,6 @@ public class SkillMaster {
 	
 	@Column(name="skill_category")
 	public String skillCategory;
-	
-	@Column(name="pro_lvl")
-	public String proficiencyLevel;
 
 	public int getSkillId() {
 		return skillId;
@@ -48,14 +45,5 @@ public class SkillMaster {
 	public void setSkillCategory(String skillCategory) {
 		this.skillCategory = skillCategory;
 	}
-
-	public String getProficiencyLevel() {
-		return proficiencyLevel;
-	}
-
-	public void setProficiencyLevel(String proficiencyLevel) {
-		this.proficiencyLevel = proficiencyLevel;
-	}
-
 	
 }

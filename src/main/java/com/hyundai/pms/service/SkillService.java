@@ -5,11 +5,12 @@ import java.util.Optional;
 
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.SkillMaster;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 
 public interface SkillService {
 	
-	public List<SkillMaster> getAll();
+	public Response getAll(PaginationWebModel paginationWebModel);
 	
     public Optional<SkillMaster> getById(int skillid);
 	

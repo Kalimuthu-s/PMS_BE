@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.ProjectManagerTransaction;
 import com.hyundai.pms.entity.ProjectReassignDTO;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.ProjectManagerTransactionService;
 
 @CrossOrigin
+@RequestMapping("/project")
 @RestController
 public class ProjectManagerTransactionController {
 	
@@ -25,41 +28,45 @@ public class ProjectManagerTransactionController {
 	private ProjectManagerTransactionService ps;
 	
 	@GetMapping("/getAllProjectManagerTransaction")
-	public List<ProjectManagerTransaction> getAllProjectManagerTransaction() {
+	public Response getAllProjectManagerTransaction() {
 		List<ProjectManagerTransaction> list = ps.getAllProjectManagerTransaction();
-		return list;
+		return new Response(1, "Success", list);		
 	}
 	
 	@GetMapping("/getProjectManagerTransaction/{id}")
-	public Optional<ProjectManagerTransaction> getProjectManagerTransactionById(@PathVariable int id) {
-		return ps.getProjectManagerTransactionById(id);	 
+	public Response getProjectManagerTransactionById(@PathVariable int id) {
+		Optional<ProjectManagerTransaction> pmt= ps.getProjectManagerTransactionById(id);
+		return new Response(1, "Success", pmt);		
 	}
 	
 	@PostMapping("/addProjectManagerTransaction")
-	public ProjectManagerTransaction addProjectManagerTransaction(@RequestBody ProjectManagerTransaction pmt) {
-		return ps.addProjectManagerTransaction(pmt);
+	public Response addProjectManagerTransaction(@RequestBody ProjectManagerTransaction pmt) {
+		ps.addProjectManagerTransaction(pmt);
+		return new Response(1, "Success", pmt);		
 	}
 	
 	@PutMapping("/updateProjectManagerTransaction")
-	public ProjectManagerTransaction updateProjectManagerTransaction(@RequestBody ProjectManagerTransaction pmt) {
-		return ps.updateProjectManagerTransaction(pmt);
+	public Response updateProjectManagerTransaction(@RequestBody ProjectManagerTransaction pmt) {
+		ps.updateProjectManagerTransaction(pmt);
+		return new Response(1, "Success", pmt);		
 	}
 	
 	@DeleteMapping("/deleteProjectManagerTransaction/{id}")
-	public String deleteProjectManagerTransaction(@PathVariable int id) {
+	public Response deleteProjectManagerTransaction(@PathVariable int id) {
 		ps.deleteProjectManagerTransaction(id);
-		return "Project Manager Transaction Deleted";
-	}
+		return new Response(1, "Success", id);		
+		}
 	
-	@GetMapping("/getManagerAvaiableProjects/{manager}")
-	public List<ProjectManagerTransaction> getManagerAvaiableProjects(@PathVariable String manager) {
-		return ps.getManagerAvaiableProjects(manager);
+	@GetMapping("/getManagerAvailableProjects/{manager}")
+	public Response getManagerAvaiableProjects(@PathVariable String manager) {
+		List<ProjectManagerTransaction> list =ps.getManagerAvaiableProjects(manager);
+		return new Response(1, "Success", list);		
 	}
 	
 	@PostMapping("/reassignManagerToProjects")
-	public String reassignManagerToProjects(@RequestBody ProjectReassignDTO data) { 
-		return ps.reassignManagerToProjects(data);
-		 
+	public Response reassignManagerToProjects(@RequestBody ProjectReassignDTO data) { 
+		ps.reassignManagerToProjects(data);
+		return new Response(1, "Success", data);
 	}
 
 }

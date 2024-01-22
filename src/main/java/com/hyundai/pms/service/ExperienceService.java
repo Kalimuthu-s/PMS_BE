@@ -1,16 +1,20 @@
 package com.hyundai.pms.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.ExperienceMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.ExperienceRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 @Service
 public class ExperienceService {
 	
@@ -29,9 +33,26 @@ public class ExperienceService {
 		
 		
 	
-		public List<ExperienceMaster> getAllExperiences() {
-	        return (List<ExperienceMaster>) experienceRepository.findAll();
+		public Response getAllExperiences(PaginationWebModel paginationWebModel) {
+
+		Map<String, Object> response = null;
+
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = experienceRepository.findAll(pageable);
+
+			response = new HashMap<>();
+
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+
+			return new Response(1, "success", response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return new Response(-1, "failed", "");
+	}
 		
 		
 		public Optional<ExperienceMaster> getExperienceById(Long locationId) {

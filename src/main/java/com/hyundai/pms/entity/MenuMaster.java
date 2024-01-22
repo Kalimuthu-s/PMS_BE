@@ -28,5 +28,6 @@ public class MenuMaster {
 	private String menuName;
 	@Column(name = "role_id")
 	private String roleId;
-
+	@Column(name = "access")
+	private String access;
 }

@@ -1,15 +1,20 @@
 package com.hyundai.pms.service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.CustomerMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.CustomerRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
 public class CustomerService {
@@ -24,9 +29,29 @@ public class CustomerService {
 	         return new Response(1,"success",customer);
 	    }
 
-	 public List<CustomerMaster> getAllCustomers() {
-	        return (List<CustomerMaster>) customerrepository.findAll();
-	    }
+	 public Response getAllCustomers(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = customerrepository.findAll(pageable);
+
+			response = new HashMap<>();
+
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+
+			return new Response(1, "success", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
+	}
+	 
+	 public List<CustomerMaster> getAllCustomerList() {
+		 return customerrepository.findAll();
+	 }
 
 	 public Optional<CustomerMaster> getCustomerById(Long customerId) {
 	        return customerrepository.findById(customerId);

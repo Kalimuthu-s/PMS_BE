@@ -1,5 +1,6 @@
 package com.hyundai.pms.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,5 @@ public class TeamMaster {
 
 	@Column(name = "team_grade")
 	private int teamGrade;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@JoinColumn(name = "dept_id",insertable = false,updatable = false,referencedColumnName = "dept_id")
-	private DepartmentMaster department;
 
 }

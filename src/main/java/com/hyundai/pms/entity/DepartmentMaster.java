@@ -13,9 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @Table(name = "department_master")
 public class DepartmentMaster {
@@ -34,11 +31,7 @@ public class DepartmentMaster {
 	@Column(name="manager_id")
 	public int managerId;
 	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@JoinColumn(name = "dept_id",insertable = false,updatable = false,referencedColumnName = "manager_id")
-	private DepartmentMaster department;
+
 
 	public int getDepartmentId() {
 		return departmentId;

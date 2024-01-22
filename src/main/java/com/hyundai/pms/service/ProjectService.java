@@ -34,5 +34,9 @@ public class ProjectService {
 	public void deleteProject(int id) {
 		pr.deleteById(id);
 	}
+	
+	public List<ProjectMaster> searchProjectByName(String projectname) {
+		return pr.searchProjectByName(projectname);
+	}
 
 }

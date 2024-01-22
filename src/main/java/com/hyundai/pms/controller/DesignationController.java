@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.entity.DesignationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.DesignationService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 
 
@@ -32,34 +33,38 @@ public class DesignationController {
 	@Autowired
 	private DesignationService designationservice;
 	
-	@GetMapping("/getall")
-	public List<DesignationMaster> getAll(){
+	@PostMapping("/getall")
+	public Response getAll(@RequestBody PaginationWebModel paginationWebModel){
 		logger.info("Fetching all designations.");
-		return designationservice.getAll();
+		return designationservice.getAll(paginationWebModel);
 	}
 	
 	@GetMapping("/getbyid/{desgId}")
-	public Optional<DesignationMaster> getById(@PathVariable int desgId) {
+	public Response getById(@PathVariable int desgId) {
 		logger.info("Fetching designation with ID: {}", desgId);
-		return designationservice.getById(desgId);
+		Optional<DesignationMaster>desig= designationservice.getById(desgId);
+		return new Response(1, "Success", desig);
 	}
 	
 	@PostMapping("/add")
 	public Response adddep(@RequestBody DesignationMaster desgbody) {
 		logger.info("Adding new designation: {}", desgbody);
-		return designationservice.adddesignation(desgbody);
+		designationservice.adddesignation(desgbody);
+		return new Response(1, "Success", desgbody);
 	}
 	
 	@PutMapping("/update")
 	public Response updatedep(@RequestBody DesignationMaster desgbody) {
 		logger.info("Updating designation: {}", desgbody);
-		return designationservice.updatedesignation(desgbody);
+		designationservice.updatedesignation(desgbody);
+		return new Response(1, "Success", desgbody);
 	}
 	
 	@DeleteMapping("/delete/{desgId}")
 	public Response deletedep(@PathVariable int desgId) {
 		logger.info("Deleting designation with ID: {}", desgId);
-		return designationservice.deletedesignation(desgId);
+		designationservice.deletedesignation(desgId);
+		return new Response(1, "Success", desgId);
 	}
 
 }

@@ -1,15 +1,19 @@
 package com.hyundai.pms.serviceimpl;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.DesignationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.DesignationRepository;
 import com.hyundai.pms.service.DesignationService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 
 @Service
@@ -19,8 +23,22 @@ public class DesignationServiceImpl implements DesignationService {
 	private DesignationRepository designationrepository;
 
 	@Override
-	public List<DesignationMaster> getAll() {
-		return designationrepository.findAll();
+	public Response getAll(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+			var page = designationrepository.findAll(pageable);
+			
+			response = new HashMap<>();
+			
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			
+			return new Response(1, "sucess", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
 	}
 
 	@Override

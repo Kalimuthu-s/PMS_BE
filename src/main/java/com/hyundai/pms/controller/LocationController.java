@@ -17,41 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.entity.LocationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.LocationService;
-
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @RestController
 @RequestMapping("/location")
-@CrossOrigin(value="http://localhost:4200/")
+@CrossOrigin(value = "http://localhost:4200/")
 public class LocationController {
 
-	
 	@Autowired
 	public LocationService locationService;
-	
-	 @PostMapping("/addLocation")
-	    public Response addLocation(@RequestBody LocationMaster location) {
-	        return locationService.saveLocation(location);
-	    }
-	 
-	 @GetMapping("/getAllLocations")
-	    public List<LocationMaster> getAllLocations() {
-	        return locationService.getAllLocations();
-	    }
-	 
-	 @GetMapping("/getLocationById/{id}")
-	    public Optional<LocationMaster> getLocationById(@PathVariable Long id) {
-	        return locationService.getLocationById(id);
-	    }
-	 
-	 @PutMapping("/updateLocation/{id}")
-	    public Response updateLocation(@PathVariable Long id, @RequestBody LocationMaster updatedLocation) {
-	        return locationService.updateLocation(id, updatedLocation);
-	    }
-	 
-	 @DeleteMapping("/deleteLocation/{id}")
-	    public Response deleteLocation(@PathVariable Long id) {
-	       return locationService.deleteLocation(id);
+
+	@PostMapping("/addLocation")
+	public Response addLocation(@RequestBody LocationMaster location) {
+		locationService.saveLocation(location);
+		return new Response(1, "Success", location);
+	}
+
+	 @PostMapping("/getAllLocations")
+	    public Response getAllLocations(@RequestBody PaginationWebModel paginationWebModel) {
+	        return locationService.getAllLocations(paginationWebModel);
 	    }
 
+	@GetMapping("/getLocationById/{id}")
+	public Response getLocationById(@PathVariable Long id) {
+		Optional<LocationMaster> location = locationService.getLocationById(id);
+		return new Response(1, "Success", location);
+	}
+
+	@PutMapping("/updateLocation/{id}")
+	public Response updateLocation(@PathVariable Long id, @RequestBody LocationMaster updatedLocation) {
+		locationService.updateLocation(id, updatedLocation);
+		return new Response(1, "Success", updatedLocation);
+	}
+
+	@DeleteMapping("/deleteLocation/{id}")
+	public Response deleteLocation(@PathVariable Long id) {
+		locationService.deleteLocation(id);
+		return new Response(1, "Success", id);
+	}
 
 }

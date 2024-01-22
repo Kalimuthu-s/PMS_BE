@@ -1,15 +1,20 @@
 package com.hyundai.pms.serviceimpl;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.SkillMaster;
 import com.hyundai.pms.repository.SkillRepository;
 import com.hyundai.pms.service.SkillService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 
 
@@ -21,8 +26,24 @@ public class SkillServiceImpl implements SkillService{
 	
 
 	@Override
-	public List<SkillMaster> getAll() {
-		return skillrepository.findAll();
+	public Response getAll(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = skillrepository.findAll(pageable);
+
+			response = new HashMap<>();
+
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+
+			return new Response(1, "success", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
 	}
 
 	@Override

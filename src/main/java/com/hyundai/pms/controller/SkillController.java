@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.SkillMaster;
 import com.hyundai.pms.service.SkillService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 
 
@@ -32,35 +33,38 @@ public class SkillController {
 	@Autowired
 	private SkillService skillservice;
 	
-	@GetMapping("/getall")
-	public List<SkillMaster> getAll(){
+	@PostMapping("/getall")
+	public Response getAll(@RequestBody PaginationWebModel paginationWebModel){
 		logger.info("Fetching all skills.");
-		return skillservice.getAll();
+		return skillservice.getAll(paginationWebModel);
 	}
 	
 	@GetMapping("/getbyid/{skillId}")
-	public Optional<SkillMaster> getById(@PathVariable int skillId) {
+	public Response getById(@PathVariable int skillId) {
 		logger.info("Fetching skill with ID: {}", skillId);
-		return skillservice.getById(skillId);
+		Optional<SkillMaster> skill= skillservice.getById(skillId);
+		return new Response(1, "Success", skill);
 	}
 	
 	@PostMapping("/add")
     public Response addSkill(@RequestBody SkillMaster skillBody) {
 		logger.info("Adding new skill: {}", skillBody);
-        return skillservice.addskill(skillBody);
-        
+        skillservice.addskill(skillBody);
+		return new Response(1, "Success", skillBody);
     }
 	
 	@PutMapping("/update")
 	public Response updateSkill(@RequestBody SkillMaster skillBody) {
 		logger.info("Updating skill: {}", skillBody);
-		return skillservice.updateskill(skillBody);
+		skillservice.updateskill(skillBody);
+		return new Response(1, "Success", skillBody);
 	}
 	
 	@DeleteMapping("/delete/{skillId}")
 	public Response deleteSkill(@PathVariable int skillId) {
 		logger.info("Deleting skill with ID: {}", skillId);
-		return skillservice.deleteskill(skillId);
+		skillservice.deleteskill(skillId);
+		return new Response(1, "Success", skillId);
 	}
 
 }

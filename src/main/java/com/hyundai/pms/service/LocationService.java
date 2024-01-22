@@ -1,16 +1,21 @@
 package com.hyundai.pms.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.LocationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.LocationRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
 public class LocationService {
@@ -28,8 +33,22 @@ public class LocationService {
 		
 		
 	
-		public List<LocationMaster> getAllLocations() {
-	        return (List<LocationMaster>) locationRepository.findAll();
+		public Response getAllLocations(PaginationWebModel paginationWebModel) {
+			Map<String, Object> response = new HashMap<>();
+			try {
+				Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+				
+				
+				Page<?> page = locationRepository.findAll(pageable);
+				
+				response.put("count", page.getTotalElements());
+				response.put("content", page.getContent());
+				
+		        return new Response(1, "success", response) ;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			 return new Response(-1, "failed", response);
 		}
 		
 		
