@@ -55,6 +55,7 @@ public class UserController {
 			Map<String,Object> data=new HashMap<>();
 			data.put("userDetails", userDetails);
 			data.put("token", token);
+			data.put("roleId", userDetails.getAuthorities().toArray()[0].toString());
 			return new UserResponse(1,"Login Success",data,true);
 		} else {
 			return new UserResponse(2,"Login Failed",null,false);

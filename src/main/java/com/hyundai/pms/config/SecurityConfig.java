@@ -53,7 +53,7 @@ public class SecurityConfig {
 		return http.cors().and().csrf(csrf -> csrf.disable())
 				.authorizeRequests().anyRequest().permitAll()
 //				.authorizeHttpRequests().antMatchers("/signin","signup").permitAll().and()
-//				.authorizeHttpRequests().antMatchers("/getAllTeam","getAllTeam","/addTeam","/updateTeam","/deleteTeam").hasAuthority("1001")
+//				.authorizeHttpRequests().antMatchers("/getAllTeam","getAllTeam","/addTeam","/updateTeam","/deleteTeam").hasAuthority("1")
 //				.anyRequest().authenticated()
 				.and()
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

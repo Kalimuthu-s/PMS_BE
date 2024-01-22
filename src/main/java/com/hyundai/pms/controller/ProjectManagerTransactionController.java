@@ -1,6 +1,7 @@
 package com.hyundai.pms.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ProjectManagerTransactionController {
 	
 	@GetMapping("/getAllProjectManagerTransaction")
 	public Response getAllProjectManagerTransaction() {
-		List<ProjectManagerTransaction> list = ps.getAllProjectManagerTransaction();
+		List<Map<String, Object>> list = ps.getAllProjectManagerTransaction();
 		return new Response(1, "Success", list);		
 	}
 	
@@ -59,7 +60,7 @@ public class ProjectManagerTransactionController {
 	
 	@GetMapping("/getManagerAvailableProjects/{manager}")
 	public Response getManagerAvaiableProjects(@PathVariable String manager) {
-		List<ProjectManagerTransaction> list =ps.getManagerAvaiableProjects(manager);
+		List<Map<String, Object>> list =ps.getManagerAvaiableProjects(manager);
 		return new Response(1, "Success", list);		
 	}
 	

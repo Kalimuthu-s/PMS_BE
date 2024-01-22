@@ -3,6 +3,7 @@ package com.hyundai.pms.service;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class ProjectManagerTransactionService {
 	@Autowired
 	private ProjectManagerTransactionRepository pr;
 	
-	public List<ProjectManagerTransaction> getAllProjectManagerTransaction(){
-		return pr.findAll();
+	public List<Map<String, Object>> getAllProjectManagerTransaction(){
+		return pr.getAllProjectManagerTransaction();
 	}
 	
 	public Optional<ProjectManagerTransaction> getProjectManagerTransactionById(int id) {
@@ -39,7 +40,7 @@ public class ProjectManagerTransactionService {
 		pr.deleteById(id);
 	}
 	
-	public List<ProjectManagerTransaction> getManagerAvaiableProjects(String manager){
+	public List<Map<String, Object>> getManagerAvaiableProjects(String manager){
 		return pr.getManagerAvaiableProjects(manager);
 	}
 	
@@ -48,7 +49,7 @@ public class ProjectManagerTransactionService {
 			list.forEach(l->{
 				ProjectManagerTransaction p1=new ProjectManagerTransaction();
 				p1=pr.getOneById(l);
-				p1.setManagerName(data.getAssignTo());
+				p1.setManagerName(data.getAssignManagerId());
 				pr.save(p1);
 			});
 		return "Manager Reassigned";

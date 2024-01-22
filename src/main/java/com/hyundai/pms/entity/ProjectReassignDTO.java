@@ -13,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProjectReassignDTO {
 	
-	private String manager;
-	private String assignTo;
+	private String managerId;
+	private String assignManagerId;
 	private List<Integer> projectList;
 
 }

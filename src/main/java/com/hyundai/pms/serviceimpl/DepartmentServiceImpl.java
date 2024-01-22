@@ -30,7 +30,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-			var page = departmentrepository.findAll(pageable);
+			var page = departmentrepository.findAllDept(pageable);
 
 			response = new HashMap<>();
 
