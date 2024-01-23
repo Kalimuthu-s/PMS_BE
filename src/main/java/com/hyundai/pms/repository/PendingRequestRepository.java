@@ -21,4 +21,9 @@ public interface PendingRequestRepository extends JpaRepository<PendingRequest, 
 
 	List<PendingRequest> findByDate(Date date);
 
+//	SELECT pr.pendingrequestid, pr.emp_month_id, pr.manager_id, pr.status, pr.date
+//        FROM pendingrequest pr
+//        JOIN employee e ON pr.emp_month_id = e.emp_month_id;
+
+
 }
