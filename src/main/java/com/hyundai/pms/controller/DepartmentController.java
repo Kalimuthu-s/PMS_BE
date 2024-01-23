@@ -1,10 +1,12 @@
 package com.hyundai.pms.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,45 +35,44 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentservice;
 	
-//	@PostMapping("/getAllExperience")
-//
-//	public Page<Department> getAllExperiences(@RequestBody Pagination pagination) {
-//
-//	Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getPageSize());
-//
-//	return experienceService.getAllExperiences(pageable);
-//
-//	} 
+
 	
 	@PostMapping("/getall")
-	public List<Department> getAll(@RequestBody PaginationRequest paginationrequest){
-		logger.info("Fetching all departments.");
-		Pageable pageable= PageRequest.of(paginationrequest.getPage(),paginationrequest.getSize());
-		Page<Department> result = departmentservice.getAll(pageable);
-		return result.getContent();
+	public ResponseEntity<Map<String, Object>> getAll(@RequestBody PaginationRequest paginationRequest) {
+	    logger.info("Fetching all departments.");
+
+	    Pageable pageable = PageRequest.of(paginationRequest.getPage(), paginationRequest.getSize());
+	    Page<Department> result = departmentservice.getAll(pageable);
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("departmentList", result.getContent());
+	    response.put("totalCount", result.getTotalElements());
+
+	    return ResponseEntity.ok(response);
 	}
+
 	
 	@GetMapping("/getbyid/{depId}")
 	public Optional<Department> getById(@PathVariable int depId) {
-		logger.info("Fetching department with ID: {}", depId);
+		logger.info("Fetching department with ID", depId);
 		return departmentservice.getById(depId);
 	}
 	
 	@PostMapping("/add")
 	public Response adddepartment(@RequestBody Department depbody) {
-		logger.info("Adding new department: {}", depbody);
+		logger.info("Adding new department", depbody);
 		return departmentservice.addDepartment(depbody);
 	}
 	
 	@PutMapping("/update")
 	public Response updatedepartment(@RequestBody Department depbody) {
-		 logger.info("Updating department: {}", depbody);
+		 logger.info("Updating department", depbody);
 		return departmentservice.updatedepartment(depbody);
 	}
 	
 	@DeleteMapping("/delete/{depId}")
 	public Response deletedepartment(@PathVariable int depId) {
-		logger.info("Deleting department with ID: {}", depId);
+		logger.info("Deleting department with ID", depId);
 		return departmentservice.deletedepartment(depId);
 	}
 

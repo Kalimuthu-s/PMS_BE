@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.hyundai.pms.entity.Department;
 import com.hyundai.pms.entity.Skill;
 import com.hyundai.pms.repository.SkillRepository;
 import com.hyundai.pms.response.Response;

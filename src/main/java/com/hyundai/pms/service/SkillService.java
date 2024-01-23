@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.hyundai.pms.entity.Department;
 import com.hyundai.pms.entity.Skill;
 import com.hyundai.pms.response.Response;
 
