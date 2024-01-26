@@ -1,7 +1,6 @@
 package com.hyundai.pms.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.MenuMaster;
 import com.hyundai.pms.entity.Response;
-import com.hyundai.pms.entity.UserResponse;
 import com.hyundai.pms.service.MenuService;
 import com.hyundai.pms.webModel.PaginationWebModel;
 
@@ -40,12 +38,6 @@ public class MenuController {
 		Optional<MenuMaster> menu = ms.getMenuById(id);
 		return new Response(1, "Success", menu);
 
-	}
-
-	@GetMapping("/getMenuByRole/{role}")
-	public Response getMenuByRole(@PathVariable String role){
-		List<MenuMaster>menu= ms.getMenuByRole(role);
-		return new Response(1, "Success", menu);
 	}
 
 	@PostMapping("/addMenu")

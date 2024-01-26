@@ -10,18 +10,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.hyundai.pms.entity.MenuMaster;
+import com.hyundai.pms.entity.MenuTransaction;
 import com.hyundai.pms.entity.Response;
-import com.hyundai.pms.repository.MenuRepository;
+import com.hyundai.pms.repository.MenuTransactionRepository;
 import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
-public class MenuService {
+public class MenuTransactionService {
 	
 	@Autowired
-	private MenuRepository mr;
+	private MenuTransactionRepository mr;
 	
-	public Response getAllMenu(PaginationWebModel paginationWebModel) {
+	public Response getAllMenuTransaction(PaginationWebModel paginationWebModel) {
 		Map<String, Object> response = null;
 
 		try {
@@ -41,21 +41,25 @@ public class MenuService {
 		return new Response(-1, "failed", "");
 	}
 	
-	public Optional<MenuMaster> getMenuById(int id) {
+	public Optional<MenuTransaction> getMenuTransactionById(int id) {
 		return mr.findById(id);
 	}
 	
-	public MenuMaster addMenu(MenuMaster menu) {
+	public List<Map<String, Object>> getDynamicMenuByRole(int roleId){
+		return mr.getDynamicMenuByRole(roleId);
+	}
+	
+	public MenuTransaction addMenuTransaction(MenuTransaction menu) {
 		return mr.save(menu);
 	}
 	
-	public MenuMaster updateMenu(MenuMaster menu) {
+	public MenuTransaction updateMenuTransaction(MenuTransaction menu) {
 		return mr.save(menu);
 	}
 	
-	public void deleteMenu(int id) {
+	public void deleteMenuTransaction(int id) {
 		mr.deleteById(id);
 	}
-	
+
 
 }

@@ -1,6 +1,5 @@
 package com.hyundai.pms.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.hyundai.pms.entity.Response;
@@ -11,6 +10,8 @@ import com.hyundai.pms.webModel.PaginationWebModel;
 public interface SkillService {
 	
 	public Response getAll(PaginationWebModel paginationWebModel);
+	
+	public Response getAllSkills();
 	
     public Optional<SkillMaster> getById(int skillid);
 	

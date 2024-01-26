@@ -1,11 +1,11 @@
 package com.hyundai.pms.serviceimpl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,6 +44,12 @@ public class SkillServiceImpl implements SkillService{
 			e.printStackTrace();
 		}
 		return new Response(-1, "failed", "");
+	}
+	
+	@Override
+	public Response getAllSkills() {
+		List<SkillMaster> list= skillrepository.findAll();
+		return new Response(1, "Success", list);
 	}
 
 	@Override

@@ -13,23 +13,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "menu_master")
+@Table(name = "skill_transaction")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuMaster {
+public class SkillTransactionMaster {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "menu_id")
-	private int menuId;
-	@Column(name = "menu_name")
-	private String menuName;
-	@Column(name = "role_id")
-	private String roleId;
-	@Column(name = "access")
-	private String access;
-	@Column(name = "main_menu")
-	private String mainMenu;
+	@Column(name = "skill_trans_id")
+	private int skillTransactionId;
+	
+	@Column(name = "emp_id")
+	private int employeeId;
+	
+	@Column(name = "skill_id")
+	private int skillId;
+	
+	@Column(name = "proficiency_level")
+	private String proficiencyLevel;
+
 }

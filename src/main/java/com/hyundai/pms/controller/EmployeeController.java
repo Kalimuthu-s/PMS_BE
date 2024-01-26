@@ -1,5 +1,8 @@
 package com.hyundai.pms.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hyundai.pms.entity.EmployeeDTO;
 import com.hyundai.pms.entity.EmployeeMaster;
 import com.hyundai.pms.entity.PmsResponseMessage;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.EmployeeService;
 
 @RestController
@@ -30,11 +35,25 @@ public class EmployeeController {
 	public PmsResponseMessage getallemployee() {
 		return service.getallemployee();
 	}
+	
+	@GetMapping("/getAllEmployeeNames")
+	public Response getAllEmployeeNames() {
+		List<Map<String, Object>> list = service.getAllEmployeeNames();
+		return new Response(1, "Success", list);
+	}
 
 	@PostMapping("/savedata")
 	public PmsResponseMessage create(@RequestBody EmployeeMaster employeemaster) {
+		System.err.println("==============> "+ employeemaster.toString());
 		return service.create(employeemaster);
 	}
+	
+	@PostMapping("/addEmployeeWithSkills")
+	public PmsResponseMessage addEmployeeWithSkills(@RequestBody EmployeeDTO employeedto) {
+		return service.saveData(employeedto);
+	}
+	
+	
 
 	@GetMapping("/allmanagers")
 	public PmsResponseMessage getAllManagers() {
@@ -81,6 +100,12 @@ public class EmployeeController {
 		System.err.println("??????????/"+employeemaster.toString());
 			return service.updateEmp(employeemaster);
 		
+	}
+	
+	@GetMapping("/getAllEmpBySkill/{skill}")
+	public Response getAllEmpBySkill(@PathVariable int skill) {
+		List<Map<String, Object>> list = service.getAllEmpBySkill(skill);
+		return new Response(1, "Success", list);
 	}
 	
 	

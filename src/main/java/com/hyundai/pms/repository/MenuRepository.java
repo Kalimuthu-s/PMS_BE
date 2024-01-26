@@ -14,10 +14,5 @@ import com.hyundai.pms.entity.MenuMaster;
 @Repository
 public interface MenuRepository extends JpaRepository<MenuMaster, Integer>{
 
-	@Query("SELECT m.menuName as menuName,r.roleName as roleId FROM MenuMaster m INNER JOIN RoleMaster r ON m.roleId=r.roleId")
-	Page<List<Map<String, Object>>> getAllMenuDetails(Pageable pageable);
-	
-	@Query("SELECT p from MenuMaster p WHERE p.roleId=:role")
-	List<MenuMaster>getMenuByRole(String role);
 
 }

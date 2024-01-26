@@ -1,6 +1,5 @@
 package com.hyundai.pms.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -39,6 +38,11 @@ public class SkillController {
 		return skillservice.getAll(paginationWebModel);
 	}
 	
+	@GetMapping("/getallskills")
+	public Response getAllSkills(){
+		logger.info("Fetching all skills.");
+		return skillservice.getAllSkills();
+	}
 	@GetMapping("/getbyid/{skillId}")
 	public Response getById(@PathVariable int skillId) {
 		logger.info("Fetching skill with ID: {}", skillId);

@@ -28,11 +28,24 @@ public interface EmployeeRepository extends JpaRepository<EmployeeMaster, Intege
 			+ "l.location_id as location,l.location_name as location_name,t.team_id as team,"
 			+ "t.team_name as team_name,em.exp_id as experience_id,em.exp_level as exp_level,"
 			+ "em.no_of_years as no_of_years,e_manager.email as manager_email,"
-			+ "e_manager.first_name as manager_firstname,e_manager.last_name as manager_lastname,e.manager_id as manager "
+			+ "e_manager.first_name as manager_firstname,e_manager.last_name as manager_lastname,e.manager_id as manager, "
+			+ "st.emp_id as employeeId, st.skill_id as skillId, st.proficiency_level as proficiencyLevel,"
+			+ "s.skill_name as skillName, s.skill_category as skillCategory "
 			+ "FROM employee_master e INNER JOIN designation_master d ON e.designation_id = d.designation_id INNER JOIN "
 			+ "location_master l ON e.location_id = l.location_id INNER JOIN department_master dm ON e.dept_id = dm.dept_id "
 			+ "INNER JOIN team_master t ON e.team_id = t.team_id INNER JOIN experience_master em ON e.exp_id = em.exp_id LEFT JOIN "
-			+ "employee_master e_manager ON e_manager.emp_id = e.manager_id WHERE e.emp_id=:emp_id", nativeQuery = true)
+			+ "employee_master e_manager ON e_manager.emp_id = e.manager_id INNER JOIN skill_transaction st "
+			+ "ON e.emp_id=st.emp_id INNER JOIN skill_master s ON st.skill_id=s.skill_id WHERE e.emp_id=:emp_id", nativeQuery = true)
 	List<Map<String, Object>> findByEmployeeId(Integer emp_id);
+	
+	@Query(value = "select e.emp_id as employeeId, concat(e.first_name,' ', e.last_name) as employeeName "
+			+ "from employee_master e inner join skill_transaction s on e.emp_id=s.emp_id where s.skill_id=:skill", nativeQuery = true)
+	List<Map<String, Object>> getAllEmpBySkill(int skill);
+	
+	
+	@Query(value = "select e.emp_id as employeeId, concat(e.first_name,' ',e.last_name) as employeeName from employee_master e", nativeQuery = true)
+	List<Map<String, Object>> getAllEmployeeNames();
+	
+	
 
 }

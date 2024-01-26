@@ -1,6 +1,5 @@
 package com.hyundai.pms.repository;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
