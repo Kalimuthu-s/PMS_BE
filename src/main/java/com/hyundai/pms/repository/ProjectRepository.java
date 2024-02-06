@@ -11,7 +11,7 @@ import com.hyundai.pms.entity.ProjectMaster;
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectMaster, Integer>{
 	
-	@Query(value = "select * from project_master where project_name like %?1%", nativeQuery = true)
+	@Query(value = "select * from project_master where project_name like ?1%", nativeQuery = true)
 	List<ProjectMaster> searchProjectByName(String projectname);
 	
 

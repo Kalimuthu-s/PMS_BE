@@ -1,5 +1,6 @@
 package com.hyundai.pms.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -34,6 +35,12 @@ public class DepartmentController {
 	public Response getAll(@RequestBody PaginationWebModel paginationWebModel) {
 		logger.info("Fetching all departments.");
 		return departmentservice.getAll(paginationWebModel);
+	}
+	
+	@GetMapping("/getAllDepartments")
+	public Response getAllDepartments() {
+		List<DepartmentMaster> list = departmentservice.getAllDepartments();
+		return new Response(1, "Success", list);
 	}
 
 	@GetMapping("/getbyid/{depId}")

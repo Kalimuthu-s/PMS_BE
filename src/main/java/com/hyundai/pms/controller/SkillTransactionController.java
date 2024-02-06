@@ -1,6 +1,7 @@
 package com.hyundai.pms.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class SkillTransactionController {
 	public Response addSkillTransaction(@RequestBody SkillTransactionMaster stm) {
 		sts.addSkillTransaction(stm);
 		return new Response(1, "Success", stm);
+	}
+	
+	@GetMapping("/getAllSkillByProficiency/{skill}/{proficiency}")
+	public Response getAllSkillByProficiency(@PathVariable String skill,@PathVariable String proficiency) {
+		List<Map<String, Object>> list = sts.getAllSkillByProficiency(skill,proficiency);
+		return new Response(1, "Success", list);
 	}
 	
 //	@PostMapping("/addMultiSkillTransaction")

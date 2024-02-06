@@ -49,15 +49,18 @@ public class UserController {
 
 	@PostMapping("/signin")
 	public UserResponse signin(@RequestBody AuthRequest authRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-		if (authentication.isAuthenticated()) {
-			UserDetails userDetails = info.loadUserByUsername(authentication.getName());
+		 
+//		Authentication authentication = authenticationManager.authenticate(
+//				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+//		if (authentication.isAuthenticated()) {
+		UserDetails userDetails = info.loadUserByUsername(authRequest.getUsername());
+		if(passwordEncoder.matches(authRequest.getPassword(), userDetails.getPassword())) {
 			String token= jwtService.generateToken(userDetails);
 			Map<String,Object> data=new HashMap<>();
 			data.put("userDetails", userDetails);
 			data.put("token", token);
 			data.put("roleId", userDetails.getAuthorities().toArray()[0].toString());
+			data.put("userId", authRequest.getUsername());
 			return new UserResponse(1,"Login Success",data,true);
 		} else {
 			return new UserResponse(2,"Login Failed",null,false);
@@ -72,14 +75,33 @@ public class UserController {
 	}
 	
 	@PostMapping("/verifyEmail")
-	public UserResponse verifyEmail(@RequestBody String email) {
-		Optional<UserMaster> user = ur.verifyEmail(email);
-		return new UserResponse(1,"Success",user,true);
+	public UserResponse verifyEmail(@RequestBody Map<String,Object> email) {
+	    try {
+	        Optional<UserMaster> userOptional = ur.verifyEmail(email.get("email").toString());
+	        if (userOptional.isPresent()) {
+	            UserMaster user = userOptional.get();
+	            if (user.getEmail() != null && user.getEmail().equals(email.get("email").toString())) {
+	                return new UserResponse(1, "Success", user, true);
+	            } else {
+	                return new UserResponse(2, "Email not verified", null, true);
+	            }
+	        } else {
+	            return new UserResponse(2, "User not found", null, true);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); 
+	        return new UserResponse(2, "Failed", null, true);
+	    }
 	}
+
 	
 	@PostMapping("/changePassword")
 	public UserResponse changePassword(@RequestBody UserDTO user) {
 		Optional<UserMaster> userdata = ur.verifyEmail(user.getEmail());
+		String passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
+	    if (!user.getPassword().matches(passwordPattern)) {
+	        return new UserResponse(3, "Password does not meet the criteria", null, false);
+	    }
 		UserMaster userMaster = userdata.get();
 		userMaster.setPassword(passwordEncoder.encode(user.getPassword()));
 		ur.save(userMaster);	

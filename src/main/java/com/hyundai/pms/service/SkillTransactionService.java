@@ -1,6 +1,7 @@
 package com.hyundai.pms.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class SkillTransactionService {
 	
 	public SkillTransactionMaster addSkillTransaction(SkillTransactionMaster stm) {
 		return str.save(stm);
+	}
+	
+	public List<Map<String, Object>> getAllSkillByProficiency(String skill,String proficiency){
+		return str.getAllSkillByProficiency(skill,proficiency);
 	}
 	
 //	public String addMultiSkillTransation(int empId,List<Integer> skillIds) {

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.CustomerMaster;
@@ -34,7 +35,7 @@ public class CustomerService {
 
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-
+//			,Sort.by("cust_id").descending()
 			var page = customerrepository.findAll(pageable);
 
 			response = new HashMap<>();
@@ -57,9 +58,9 @@ public class CustomerService {
 	        return customerrepository.findById(customerId);
 	  }
 
-	 public Response updateCustomer(Long customerId, CustomerMaster updatedCustomer) {
-	        if (customerrepository.existsById(customerId)) {
-	            updatedCustomer.setCustomerId(customerId);
+	 public Response updateCustomer(CustomerMaster updatedCustomer) {
+	        if (updatedCustomer!=null) {
+	            updatedCustomer.setCustomerId(updatedCustomer.getCustomerId());
 	            customerrepository.save(updatedCustomer);
 	            return new Response(1,"success",updatedCustomer);
 	        } else {

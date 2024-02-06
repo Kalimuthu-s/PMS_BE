@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hyundai.pms.webModel;
 
 import lombok.AllArgsConstructor;
@@ -9,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * @author Kalimuthu
- */
 @Getter
 @Setter
 @AllArgsConstructor

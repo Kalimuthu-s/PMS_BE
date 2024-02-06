@@ -3,6 +3,9 @@ package com.hyundai.pms.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +20,9 @@ import com.hyundai.pms.entity.EmployeeDTO;
 import com.hyundai.pms.entity.EmployeeMaster;
 import com.hyundai.pms.entity.PmsResponseMessage;
 import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.entity.UserMaster;
 import com.hyundai.pms.service.EmployeeService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @RestController
 @RequestMapping("/employee")
@@ -30,30 +35,45 @@ public class EmployeeController {
 	public PmsResponseMessage getAll() {
 		return service.getAll();
 	}
-	
+
 	@GetMapping("/getallemployee")
 	public PmsResponseMessage getallemployee() {
 		return service.getallemployee();
 	}
-	
+
 	@GetMapping("/getAllEmployeeNames")
 	public Response getAllEmployeeNames() {
 		List<Map<String, Object>> list = service.getAllEmployeeNames();
 		return new Response(1, "Success", list);
 	}
 
-	@PostMapping("/savedata")
-	public PmsResponseMessage create(@RequestBody EmployeeMaster employeemaster) {
-		System.err.println("==============> "+ employeemaster.toString());
-		return service.create(employeemaster);
-	}
-	
+//	@PostMapping("/savedata")
+//	public PmsResponseMessage create(@RequestBody EmployeeMaster employeemaster) {
+//		System.err.println("==============> " + employeemaster.toString());
+//		return service.create(employeemaster);
+//	}
+
 	@PostMapping("/addEmployeeWithSkills")
 	public PmsResponseMessage addEmployeeWithSkills(@RequestBody EmployeeDTO employeedto) {
+		System.err.println(">>>"+employeedto.toString());
 		return service.saveData(employeedto);
 	}
-	
-	
+
+	@PostMapping("/mailSender")
+	public void mailSender(@RequestBody(required = false) UserMaster userMaster)throws AddressException, MessagingException {
+	    try {
+	      
+	        if (userMaster != null) {
+	            service.emailUserDetails(userMaster);
+	        } else {
+	            throw new IllegalArgumentException("Employee details cannot be null");
+	        }
+	    } catch (MessagingException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Failed to send email: " + e.getMessage());
+	    }
+	}
+
 
 	@GetMapping("/allmanagers")
 	public PmsResponseMessage getAllManagers() {
@@ -69,22 +89,22 @@ public class EmployeeController {
 	public PmsResponseMessage getAllTeams() {
 		return service.getAllTeams();
 	}
-	
+
 	@GetMapping("/allLocations")
 	public PmsResponseMessage getAllLocations() {
 		return service.getAllLocations();
 	}
-	
+
 	@GetMapping("/getAllDesignation")
 	public PmsResponseMessage getAllDesignations() {
 		return service.getAllDesignations();
 	}
-	
+
 	@GetMapping("/getallExperiences")
 	public PmsResponseMessage getAllExperiences() {
 		return service.getAllExperiences();
 	}
-	
+
 	@PostMapping("delete/{emp_id}")
 	public PmsResponseMessage deleteEmployee(@PathVariable int emp_id) {
 		return service.deleteAndReturn(emp_id);
@@ -93,27 +113,36 @@ public class EmployeeController {
 	@GetMapping("findById/{emp_id}")
 	public PmsResponseMessage getById(@PathVariable Integer emp_id) {
 		return service.getById(emp_id);
-		
+
 	}
+
 	@PutMapping("/updatedata")
-	public PmsResponseMessage Update(@RequestBody EmployeeMaster employeemaster) {
-		System.err.println("??????????/"+employeemaster.toString());
-			return service.updateEmp(employeemaster);
-		
+	public PmsResponseMessage Update(@RequestBody EmployeeDTO employeeDTO) {
+		return service.updateEmp(employeeDTO);
 	}
-	
+
 	@GetMapping("/getAllEmpBySkill/{skill}")
 	public Response getAllEmpBySkill(@PathVariable int skill) {
 		List<Map<String, Object>> list = service.getAllEmpBySkill(skill);
 		return new Response(1, "Success", list);
 	}
 	
+	@GetMapping("/getEmployeeByName/{name}")
+	public Response getEmployeeByName(@PathVariable String name) {
+		List<Map<String, Object>> list = service.getEmployeeByName(name);
+		return new Response(1, "Success", list);
+	}
 	
 	
-
+	@GetMapping("/getEmployeeByFullName/{name}")
+	public Response getEmployeeByFullName(@PathVariable String name) {
+		List<Map<String, Object>> emp = service.getEmployeeByFullName(name);
+		return new Response(1, "Success", emp);
+	}
+	
+	
 	// @Autowired
 	// private ExcelHelper excelhelper;
-
 
 	// Delete operation by praveen k
 //@DeleteMapping("delete/{emp_id}")
@@ -213,6 +242,5 @@ public class EmployeeController {
 	// }
 
 	// Findby Id Data
-
 
 }

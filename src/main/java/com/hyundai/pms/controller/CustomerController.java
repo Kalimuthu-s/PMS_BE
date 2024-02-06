@@ -52,13 +52,13 @@ public class CustomerController {
 	}
 
 	@PutMapping("/updateCustomer/{id}")
-	public Response updateCustomer(@PathVariable Long id, @RequestBody CustomerMaster updatedCustomer) {
-		customerservice.updateCustomer(id, updatedCustomer);
+	public Response updateCustomer(@RequestBody CustomerMaster updatedCustomer) {
+		customerservice.updateCustomer(updatedCustomer);
 		return new Response(1, "Success", updatedCustomer);
 	}
 
 	@DeleteMapping("/deleteCustomer/{id}")
-	public Response deleteCustomer(@PathVariable Long id) {
+	public Response deleteCustomer(@PathVariable long id) {
 		customerservice.deleteCustomer(id);
 		return new Response(1, "Success", id);
 	}

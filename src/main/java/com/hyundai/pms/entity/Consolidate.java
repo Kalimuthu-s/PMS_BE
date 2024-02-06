@@ -1,5 +1,7 @@
 package com.hyundai.pms.entity;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +11,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthRequest {
+public class Consolidate {
 	
-	private String username;
-	private String password;
+	private int empid;
 
-	
+	private int projectid;
+
+	private Date startDate;
+
+	private Date endDate;
 
 }

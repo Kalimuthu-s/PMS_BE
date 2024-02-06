@@ -66,7 +66,8 @@ public class EmployeeMaster {
 	@Column(name = "exp_id")
 	private String experience;
 
-	
+	@Column(name = "role_id")
+	private String roleId;
 
 
 }

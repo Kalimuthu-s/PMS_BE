@@ -19,6 +19,7 @@ public class UserInfoUserDetailsService implements UserDetailsService{
 	
 	 @Override
 	    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		 System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + username);
 	        Optional<UserMaster> userInfo = ur.findByUsername(username);
 	        return userInfo.map(UserInfoUserDetails::new)
 	                .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));

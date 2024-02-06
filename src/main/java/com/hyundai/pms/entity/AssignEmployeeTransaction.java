@@ -1,5 +1,7 @@
 package com.hyundai.pms.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,23 +15,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "menu_master")
+@Table(name = "assign_employee_transaction")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuMaster {
+public class AssignEmployeeTransaction {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "menu_id")
-	private int menuId;
-	@Column(name = "menu_name")
-	private String menuName;
-	@Column(name = "icon")
-	private String icon;
-	@Column(name = "access")
-	private String access;
-	@Column(name = "main_menu")
-	private String mainMenu;
+	@Column(name = "proj_emp_id")
+	private int projectEmpId;
+	
+	@Column(name = "project_id")
+	private int projectId;
+	
+	@Column(name = "employee_id")
+	private int employeeId;
+	
+	@Column(name = "assigned_start_date")
+	private String assignedStartDate;
+	
+	@Column(name = "assigned_end_date")
+	private String assignedEndDate;
+
 }

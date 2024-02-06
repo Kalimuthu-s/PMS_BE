@@ -1,6 +1,7 @@
 package com.hyundai.pms.serviceimpl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,6 +45,11 @@ public class DepartmentServiceImpl implements DepartmentService{
 		}
 
 		return new Response(-1, "failed", "");
+	}
+	
+	@Override
+	public List<DepartmentMaster> getAllDepartments() {
+		return departmentrepository.findAll();
 	}
 
 	@Override

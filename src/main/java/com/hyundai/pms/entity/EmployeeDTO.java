@@ -44,7 +44,11 @@ public class EmployeeDTO {
 	
 	private String team;
 	
-	private String experience;
+	private String roleId;
+	
+	private String experienceId;
+	
+	private String experienceLevel;
 	
 	private List<SkillGetDTO> skillList;
 
