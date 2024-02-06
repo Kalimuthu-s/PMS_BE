@@ -15,9 +15,11 @@ import com.hyundai.pms.entity.AssignEmployeeSearchDTO;
 import com.hyundai.pms.entity.AssignEmployeeTransaction;
 import com.hyundai.pms.entity.EmployeeTransactionDTO;
 import com.hyundai.pms.entity.MonthlyEntries;
+import com.hyundai.pms.entity.ProjectMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.AssignEmployeeTransactionRepository;
 import com.hyundai.pms.repository.MonthlyEntriesRepository;
+import com.hyundai.pms.repository.ProjectRepository;
 import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
@@ -31,6 +33,9 @@ public class AssignEmployeeTransactionService {
 	
 	@Autowired
 	private MonthlyEntriesRepository monthlyEntryRepo;
+	
+	@Autowired
+	private ProjectRepository projectRepository;
 	
 	public Response getAllAssignEmployeeTransaction(PaginationWebModel paginationWebModel){
 		Map<String, Object> response = null;
@@ -124,14 +129,15 @@ public class AssignEmployeeTransactionService {
 			AssignEmployeeTransaction employee = new AssignEmployeeTransaction();
 			MonthlyEntries monthlyEntries = new MonthlyEntries();
 			employee.setEmployeeId(l);
-			employee.setAssignedStartDate(dto.getAssignedStartDate());
-			employee.setAssignedEndDate(dto.getAssignedEndDate());
+			Optional<ProjectMaster> project = projectRepository.findById(dto.getProjectId());
+			employee.setAssignedStartDate(project.get().getStartDate());
+			employee.setAssignedEndDate(project.get().getEndDate());
 			employee.setProjectId(dto.getProjectId());
 			petr.save(employee);
 			
 			monthlyEntries.setEmp_id(l);
 			monthlyEntries.setProjectId(dto.getProjectId());
-			String year = dto.getAssignedStartDate().substring(0, 4);
+			String year = employee.getAssignedStartDate().substring(0, 4);
 			monthlyEntries.setYear(year);
 			monthlyEntries.setJanuary(0.0);
 			monthlyEntries.setFebruary(0.0);

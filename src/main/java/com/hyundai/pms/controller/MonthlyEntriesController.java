@@ -33,8 +33,9 @@ public class MonthlyEntriesController {
 	}
 	
 	@GetMapping("/getAllMonthlyEntries")
-	public List<Map<String, Object>> getAllMonthlyEntries() {
-        return monthlyEntriesService.getAllMonthlyEntries();
+	public Response getAllMonthlyEntries() {
+		return monthlyEntriesService.getAllMonthlyEntries();
+		
 	}
 	
 	@GetMapping("/getMonthlyEntryById/{id}")

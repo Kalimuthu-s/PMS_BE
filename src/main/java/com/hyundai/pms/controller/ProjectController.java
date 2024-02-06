@@ -1,6 +1,7 @@
 package com.hyundai.pms.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ProjectController {
 	
 	@GetMapping("/getAllProject")
 	public Response  getAllProject() {
-		List<ProjectMaster> list = ps.getAllProject();
+		List<Map<String, Object>> list = ps.getAllProject();
 		return new Response(1, "Success", list);
 	}
 	

@@ -12,11 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.Consolidate;
 import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.repository.MonthlyEntriesRepository;
 import com.hyundai.pms.repository.OverallUtilizationRepository;
 
 @Service
 public class OverallUtilizationService {
 	
+	@Autowired
+	private MonthlyEntriesRepository monthlyRepo;
 	
 	@Autowired
 	private OverallUtilizationRepository overallUtilizationRepo;
@@ -107,6 +110,16 @@ public class OverallUtilizationService {
 			List<Map<String, Object>> getdatasbyProject = overallUtilizationRepo.getdatabyProjects(
 					consolidate.getProjectid(), consolidate.getStartDate(), consolidate.getEndDate());
 			return new Response(1, "Consolidated Data Getting Successfully", getdatasbyProject);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Response(2, "Error getting the data", null);
+		}
+	}
+	
+	public Response getAllConsolidated() {
+		try {
+			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidated();
+			return new Response(1, "Consolidated Data Getting Successfully", monthlyData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Response(2, "Error getting the data", null);

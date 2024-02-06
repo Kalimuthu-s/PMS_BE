@@ -14,7 +14,7 @@ import com.hyundai.pms.service.OverallUtilizationService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(name = "/employeeOverallUtilization")
+@RequestMapping("/employeeOverallUtilization")
 public class OverallUtilizationController {
 	
 	@Autowired
@@ -35,6 +35,11 @@ public class OverallUtilizationController {
 	public Response getAllDatasByProject(@RequestBody Consolidate consolidate) {
 		System.err.println(">>>>>>>>>>>"+consolidate.getProjectid()+consolidate.getStartDate()+consolidate.getEndDate());
 			return overallUtilizationRepo.getByProjectsData(consolidate);
+	}
+	
+	@GetMapping("/getAllConsolidated")
+	public Response getAllConsolidated() {
+		return overallUtilizationRepo.getAllConsolidated();
 	}
 
 }
