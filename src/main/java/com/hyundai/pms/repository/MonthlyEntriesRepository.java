@@ -39,5 +39,8 @@ public interface MonthlyEntriesRepository extends JpaRepository<MonthlyEntries, 
 			+ "INNER JOIN project_master p ON m.project_id = p.project_id "
 			+ "GROUP BY m.emp_id, e.first_name, e.last_name, m.year", nativeQuery = true)
 	List<Map<String, Object>> getAllConsolidated();
+	
+	
+//	List<Map<String, Object>> monthlyEntriesFilter();
 
 }

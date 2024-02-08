@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.MonthlyEntries;
+import com.hyundai.pms.entity.MonthlyEntryDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.MonthlyEntriesService;
 
@@ -57,5 +58,10 @@ public class MonthlyEntriesController {
     public Response getByProjectId(@PathVariable int projectId) {
 		return monthlyEntriesService.findByProjectId(projectId);
     }
+	
+	@PostMapping("/monthlyEntriesFilter")
+	public Response monthlyEntriesFilter(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.monthlyEntriesFilter(dto);
+	}
 
 }
