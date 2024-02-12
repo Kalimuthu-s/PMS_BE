@@ -21,47 +21,61 @@ import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.MonthlyEntriesService;
 
 @RestController
-@RequestMapping("/monthlyEntries")	
+@RequestMapping("/monthlyEntries")
 @CrossOrigin
 public class MonthlyEntriesController {
-	
+
 	@Autowired
 	private MonthlyEntriesService monthlyEntriesService;
-	
+
 	@PostMapping("/saveMonthlyEntry")
-	public Response saveMonthlyEntry(@RequestBody MonthlyEntries  monthlyEntries) {
+	public Response saveMonthlyEntry(@RequestBody MonthlyEntries monthlyEntries) {
 		return monthlyEntriesService.saveMonthlyEntry(monthlyEntries);
 	}
-	
+
 	@GetMapping("/getAllMonthlyEntries")
 	public Response getAllMonthlyEntries() {
 		return monthlyEntriesService.getAllMonthlyEntries();
-		
 	}
-	
+
 	@GetMapping("/getMonthlyEntryById/{id}")
 	public Optional<MonthlyEntries> getMonthlyEntryById(@PathVariable int id) {
-        return monthlyEntriesService.getMonthlyEntryById(id);
+		return monthlyEntriesService.getMonthlyEntryById(id);
 	}
-	
+
 	@PutMapping("/updateMonthlyEntry")
-	public Response  updateMonthlyEntry(@RequestBody MonthlyEntries updatedMonthlyEntry) {
+	public Response updateMonthlyEntry(@RequestBody MonthlyEntries updatedMonthlyEntry) {
 		return monthlyEntriesService.updateMonthlyEntry(updatedMonthlyEntry);
 	}
-	
+
 	@DeleteMapping("/deleteMonthlyEntry/{id}")
 	public Response deleteMonthlyEntry(@PathVariable int id) {
 		return monthlyEntriesService.deleteMonthlyEntry(id);
 	}
 
 	@GetMapping("/by-project/{projectId}")
-    public Response getByProjectId(@PathVariable int projectId) {
+	public Response getByProjectId(@PathVariable int projectId) {
 		return monthlyEntriesService.findByProjectId(projectId);
-    }
-	
+	}
+
 	@PostMapping("/monthlyEntriesFilter")
 	public Response monthlyEntriesFilter(@RequestBody MonthlyEntryDTO dto) {
 		return monthlyEntriesService.monthlyEntriesFilter(dto);
+	}
+
+	@PostMapping("/monthlyEntriesFilterByName")
+	public Response monthlyEntriesByEmployeeId(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.monthlyEntriesFilterByName(dto);
+	}
+
+	@PostMapping("/monthlyEntriesFilterByProject")
+	public Response monthlyEntriesFilterByProject(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.monthlyEntriesFilterByProject(dto);
+	}
+
+	@PostMapping("/monthlyEntriesFilterByDate")
+	public Response monthlyEntriesFilterByDate(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.monthlyEntriesFilterByDate(dto);
 	}
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.config.UserInfoUserDetailsService;
 import com.hyundai.pms.entity.AuthRequest;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.UserDTO;
 import com.hyundai.pms.entity.UserMaster;
 import com.hyundai.pms.entity.UserResponse;
@@ -107,5 +108,10 @@ public class UserController {
 		ur.save(userMaster);	
 		return new UserResponse(1,"Password Changed",user,true);
 	}
+	
+//	@GetMapping("/user/logout")
+//	public Response logout() {
+//		return new Response(1, "Success", null);
+//	}
 
 }

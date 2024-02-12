@@ -24,8 +24,8 @@ public interface MonthlyEntriesRepository extends JpaRepository<MonthlyEntries, 
 			+ "FROM monthly_entries m inner join employee_master e on m.emp_id=e.emp_id inner join project_master p on m.project_id=p.project_id", nativeQuery = true)
 	List<Map<String, Object>> getAllMonthlyEntries();
 
-	@Query(value = "select * from monthly_entries where emp_id=?1 and year=?2", nativeQuery = true)
-	List<MonthlyEntries> findByEmp_idAndYear(int empId, String year);
+	@Query(value = "select * from monthly_entries where emp_id=?1 and year=?2 and month_id!=?3", nativeQuery = true)
+	List<MonthlyEntries> findByEmpIdAndYear(int empId, String year, int monthId);
 
 	@Query(value = "SELECT " + "m.emp_id as employeeId, " + "concat(e.first_name,' ',e.last_name) as employeeName, "
 			+ "SUM(m.january) as januaryTotal, " + "SUM(m.february) as februaryTotal, " + "SUM(m.march) as marchTotal, "
