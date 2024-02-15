@@ -31,7 +31,7 @@ public class AssignEmployeeTransaction {
 	private int projectId;
 	
 	@Column(name = "employee_id")
-	private int employeeId;
+	private Long employeeId;
 	
 	@Column(name = "assigned_start_date")
 	private String assignedStartDate;

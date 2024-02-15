@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.hyundai.pms.entity.EmployeeMaster;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeMaster, Integer>{
+public interface EmployeeRepository extends JpaRepository<EmployeeMaster, Long>{
 	
 
 	Optional<EmployeeMaster> findByEmail(String email);
@@ -36,7 +36,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeMaster, Intege
 			+ "INNER JOIN team_master t ON e.team_id = t.team_id INNER JOIN experience_master em ON e.exp_id = em.exp_id LEFT JOIN "
 			+ "employee_master e_manager ON e_manager.emp_id = e.manager_id INNER JOIN skill_transaction st "
 			+ "ON e.emp_id=st.emp_id INNER JOIN skill_master s ON st.skill_id=s.skill_id WHERE e.emp_id=:emp_id", nativeQuery = true)
-	List<Map<String, Object>> findByEmployeeId(int emp_id);
+	List<Map<String, Object>> findByEmployeeId(Long emp_id);
 	
 	@Query(value = "select e.emp_id as employeeId, concat(e.first_name,' ', e.last_name) as employeeName "
 			+ "from employee_master e inner join skill_transaction s on e.emp_id=s.emp_id where s.skill_id=:skill", nativeQuery = true)

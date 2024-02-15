@@ -26,7 +26,7 @@ public class SkillTransactionMaster {
 	private int skillTransactionId;
 	
 	@Column(name = "emp_id")
-	private int employeeId;
+	private Long employeeId;
 	
 	@Column(name = "skill_id")
 	private int skillId;

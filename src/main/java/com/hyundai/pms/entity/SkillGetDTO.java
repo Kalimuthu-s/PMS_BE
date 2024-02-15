@@ -15,7 +15,7 @@ public class SkillGetDTO {
 	
 	private int skillTransactionId;
 	
-	private int employeeId;
+	private Long employeeId;
 	
 	private int skillId;
 	

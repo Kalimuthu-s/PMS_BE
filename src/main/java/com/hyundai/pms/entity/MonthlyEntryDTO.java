@@ -23,4 +23,6 @@ public class MonthlyEntryDTO {
 	
 	private Date endDate;
 	
+	private String year;
+	
 }

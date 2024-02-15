@@ -48,7 +48,6 @@ public class DepartmentController {
 		logger.info("Fetching department with ID: {}", depId);
 		Optional<DepartmentMaster> dept = departmentservice.getById(depId);
 		return new Response(1, "Success", dept);
-
 	}
 
 	@PostMapping("/add")

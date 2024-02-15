@@ -19,7 +19,7 @@ public class EmployeeTransactionDTO {
 	
 	private int projectId;
 	
-	private List<Integer> employeeId;
+	private List<Long> employeeId;
 	
 	private String assignedStartDate;
 	

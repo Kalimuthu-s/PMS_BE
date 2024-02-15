@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Consolidate {
 	
-	private int empid;
+	private Long empid;
 
 	private int projectid;
 

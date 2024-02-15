@@ -35,8 +35,8 @@ public class CustomerService {
 
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-//			,Sort.by("cust_id").descending()
-			var page = customerrepository.findAll(pageable);
+			
+			var page = customerrepository.getAllCustomers(pageable,paginationWebModel.getSearchKey());
 
 			response = new HashMap<>();
 

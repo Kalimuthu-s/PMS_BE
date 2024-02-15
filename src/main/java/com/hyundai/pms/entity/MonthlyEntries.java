@@ -26,7 +26,7 @@ public class MonthlyEntries {
 	@Column(name ="month_id")
 	private int monthlyId;
 	@Column(name ="emp_id")
-	private int emp_id;
+	private Long emp_id;
 	@Column(name="project_id")
 	private int projectId;
 	@Column(name="january")

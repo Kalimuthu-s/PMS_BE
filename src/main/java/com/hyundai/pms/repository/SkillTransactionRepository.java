@@ -19,7 +19,7 @@ public interface SkillTransactionRepository extends JpaRepository<SkillTransacti
 	@Query(value = "DELETE FROM skill_transaction WHERE emp_id = :empId", nativeQuery = true)
 	@Modifying
 	@Transactional
-	void deleteByEmployeeId(@Param("empId") int empId);
+	void deleteByEmployeeId(@Param("empId") Long empId);
 	
 	@Query(value = "select t.skill_trans_id as skillTransactionId, concat(e.first_name,' ',e.last_name) as employeeName, "
 			+ "s.skill_name as skillName, t.proficiency_level as proficiencyLevel from skill_transaction t "

@@ -39,7 +39,6 @@ public class AssignEmployeeTransactionService {
 	
 	public Response getAllAssignEmployeeTransaction(PaginationWebModel paginationWebModel){
 		Map<String, Object> response = null;
-
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 
@@ -85,14 +84,22 @@ public class AssignEmployeeTransactionService {
 //				sql += "t.employee_id not in (SELECT DISTINCT pe.employee_id FROM assign_employee_transaction pe WHERE pe.assigned_start_date>='"+dto.getAssignedStartDate()+"' && t.assigned_end_date<='"+dto.getAssignedEndDate()+"')";
 //				System.err.println("==================> only start and end date");
 //			}
+			
+			
+			
 			if (dto.getAssignedStartDate()==null && dto.getAssignedEndDate()==null && dto.getProficiency()==null && dto.getSkill()!=null ) {
 				sql += "s.skill_id='"+dto.getSkill()+"'";
 				System.err.println("==================> only skill");
 			}
+			
+			System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+dto.getSkill());
+			System.err.println(">>>>>>>>>>>>>>>>>>>>"+dto.getProficiency());
+			
 			if(dto.getAssignedStartDate()==null && dto.getAssignedEndDate()==null && dto.getSkill()!=null && dto.getProficiency()!=null) {
-				sql +="s.skill_id='"+dto.getSkill()+"' && s.proficiency_level='"+dto.getProficiency()+"'";
-				System.err.println("==================> only skill and proficiency");
+				sql +="s.skill_id='"+dto.getSkill()+"' AND s.proficiency_level='"+dto.getProficiency()+"'";
+				System.err.println("==================> only skill and proficiency"+sql);
 			}
+			
 			
 //			if(dto.getAssignedStartDate()!=null && dto.getAssignedEndDate()!=null && dto.getSkill()!=null && dto.getProficiency()!=null) {
 //				sql += "(s.skill_id='"+dto.getSkill()+"' && s.proficiency_level='"+dto.getProficiency()+"' && t.employee_id) not in (SELECT DISTINCT pe.employee_id FROM assign_employee_transaction pe WHERE pe.assigned_start_date>='"+dto.getAssignedStartDate()+"' && t.assigned_end_date<='"+dto.getAssignedEndDate()+"')";
@@ -102,7 +109,7 @@ public class AssignEmployeeTransactionService {
 //			    sqlCondition = " AND " + sql; // Concatenate with "AND" if sql is not empty
 //			}
 			
-			String query = "select t.employee_id as employeeId, concat(e.first_name,' ',e.last_name) as employeeName, "
+		/*	String query = "select t.employee_id as employeeId, concat(e.first_name,' ',e.last_name) as employeeName, "
 					+ "t.project_id as projectId, p.project_name as projectName, "
 					+ "t.assigned_start_date as assignedStartDate, t.assigned_end_date as assignedEndDate, s.skill_id as skillId, "
 					+ "s.proficiency_level as skillProficiency from assign_employee_transaction t "
@@ -110,9 +117,21 @@ public class AssignEmployeeTransactionService {
 					+ "inner join employee_master e on t.employee_id = e.emp_id "
 					+ "inner join skill_transaction s on t.employee_id = s.emp_id "
 					+ "where "+sql;
-
-			System.err.println("==================> Full query" + sql);
 			
+			*/
+			
+			
+			String query = "SELECT e.emp_id AS employeeId, CONCAT(e.first_name, ' ', e.last_name) AS employeeName "
+		            + "FROM employee_master e "
+		            + "JOIN skill_transaction s ON e.emp_id = s.emp_id ";
+			
+			if (!sql.isEmpty()) {
+			    query += "WHERE " + sql;
+			}
+			
+			System.err.println("==================> Full query" + sql);
+//			assign_employee_transaction t 
+//			skill_transaction s
 			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
 
 			return result;
@@ -124,7 +143,7 @@ public class AssignEmployeeTransactionService {
 	
 	
 	public String addMultipleEmployeeTransaction(EmployeeTransactionDTO dto) {
-		List<Integer> list = dto.getEmployeeId();
+		List<Long> list = dto.getEmployeeId();
 		list.forEach(l->{
 			AssignEmployeeTransaction employee = new AssignEmployeeTransaction();
 			MonthlyEntries monthlyEntries = new MonthlyEntries();
@@ -133,8 +152,7 @@ public class AssignEmployeeTransactionService {
 			employee.setAssignedStartDate(project.get().getStartDate());
 			employee.setAssignedEndDate(project.get().getEndDate());
 			employee.setProjectId(dto.getProjectId());
-			petr.save(employee);
-			
+			petr.save(employee);	
 			monthlyEntries.setEmp_id(l);
 			monthlyEntries.setProjectId(dto.getProjectId());
 			String year = employee.getAssignedStartDate().substring(0, 4);

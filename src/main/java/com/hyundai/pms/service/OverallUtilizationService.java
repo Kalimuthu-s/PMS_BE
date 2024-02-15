@@ -68,7 +68,6 @@ public class OverallUtilizationService {
 		               "WHERE " + sql + " " +
 		               "GROUP BY emd.emp_id, emd.project_id, p.project_name, emp.first_name, emd.months, emp.last_name,emd.contribution";
 
-
 			System.err.println("query Values are::::::" + query);
 
 			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
@@ -86,7 +85,6 @@ public class OverallUtilizationService {
 			Date originalDate = originalDateFormat.parse(date.toString());
 			SimpleDateFormat desiredDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String desiredDateString = desiredDateFormat.format(originalDate);
-
 			return desiredDateString;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -116,9 +114,9 @@ public class OverallUtilizationService {
 		}
 	}
 	
-	public Response getAllConsolidated() {
+	public Response getAllConsolidated(String year) {
 		try {
-			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidated();
+			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidated(year);
 			return new Response(1, "Consolidated Data Getting Successfully", monthlyData);
 		} catch (Exception e) {
 			e.printStackTrace();

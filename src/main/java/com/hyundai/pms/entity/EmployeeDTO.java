@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 public class EmployeeDTO {
 	
-	private int emp_id;
+	private Long emp_id;
 
 	private String first_name;
 

@@ -16,5 +16,7 @@ public class PaginationWebModel {
 	private Integer pageNo;
 
 	private Integer pageSize;
+	
+	private String searchKey;
 
 }

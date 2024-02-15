@@ -168,7 +168,7 @@ public class EmployeeService {
 
 	private PmsResponseMessage saveEmployeeRecord(EmployeeDTO employeedto) {
 		EmployeeMaster emp = new EmployeeMaster();
-		
+		emp.setEmp_id(employeedto.getEmp_id());
 		emp.setFirst_name(employeedto.getFirst_name());
 		emp.setLast_name(employeedto.getLast_name());
 		emp.setDate_of_birth(employeedto.getDate_of_birth());
@@ -193,27 +193,14 @@ public class EmployeeService {
 		user.setStatus(true);
 		userRepo.save(user);
 		
-		this.saveSkillData(employeedto,emp.getEmp_id());
+		this.saveSkillData(employeedto);
 		if(employeedto.getEmp_id() > 0) {
 			return new PmsResponseMessage(201, "Data updated successfully", emp, true);
 		}
 		return new PmsResponseMessage(201, "Data saved successfully", emp, true);
 	}
 
-	private void saveSkillData(EmployeeDTO employeedto, int empId) {
-			List<SkillGetDTO> skills = employeedto.getSkillList();
-			if(employeedto.getEmp_id() > 0) {
-				skillRepo.deleteByEmployeeId(employeedto.getEmp_id());
-			}
-			for(SkillGetDTO skill:skills) {
-				SkillTransactionMaster skillmaster = new SkillTransactionMaster();
-				skillmaster.setEmployeeId(empId);
-				skillmaster.setSkillId(skill.getSkillId());
-				skillmaster.setProficiencyLevel(skill.getProficiencyLevel());
-				skillRepo.save(skillmaster);
-		}
-		
-	}
+	
 
 	public PmsResponseMessage getAllManagers() {
 		try {
@@ -276,13 +263,14 @@ public class EmployeeService {
 		}
 	}
 
-	public PmsResponseMessage getById(Integer emp_id) {
+	public PmsResponseMessage getById(Long emp_id) {
+		System.err.println("lllllllllllll"+emp_id);
 		List<Map<String, Object>> empOptional = employeerepo.findByEmployeeId(emp_id);
 		if (!empOptional.isEmpty()) {
             Map<String, Object> employeeData = empOptional.get(0);
 
             EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setEmp_id(Integer.parseInt(employeeData.get("emp_id").toString()));
+            employeeDTO.setEmp_id(Long.parseLong(employeeData.get("emp_id").toString()));
             employeeDTO.setFirst_name(employeeData.get("first_name").toString());
             employeeDTO.setLast_name(employeeData.get("last_name").toString());
             employeeDTO.setDate_of_birth(employeeData.get("date_of_birth").toString());
@@ -318,10 +306,9 @@ public class EmployeeService {
 
 	public PmsResponseMessage updateEmp(EmployeeDTO employeedto) {
 		try {
-			int empId = employeedto.getEmp_id();
+			Long empId = employeedto.getEmp_id();
 			if (empId > 0) {
 				EmployeeMaster emp = new EmployeeMaster();
-				
 				emp.setEmp_id(employeedto.getEmp_id());
 				emp.setFirst_name(employeedto.getFirst_name());
 				emp.setLast_name(employeedto.getLast_name());
@@ -339,7 +326,7 @@ public class EmployeeService {
 				emp.setRoleId(employeedto.getRoleId());
 				employeerepo.save(emp);
 				
-				this.saveSkillData(employeedto,emp.getEmp_id());
+				this.saveSkillData(employeedto);
 			}
 			return new PmsResponseMessage(1, "Employee Updated", employeedto, false);
 		} catch (Exception e) {
@@ -347,8 +334,24 @@ public class EmployeeService {
 			return new PmsResponseMessage(-2, "Internal Server Error", null, false);
 		}
 	}
+	
+	private void saveSkillData(EmployeeDTO employeedto) {
+		System.err.println(">>>>>>>>>>>>>>>>>>>"+employeedto.getEmp_id());
+		List<SkillGetDTO> skills = employeedto.getSkillList();
+		if(employeedto.getEmp_id() > 0) {
+			skillRepo.deleteByEmployeeId(employeedto.getEmp_id());
+		}
+		for(SkillGetDTO skill:skills) {
+			SkillTransactionMaster skillmaster = new SkillTransactionMaster();
+			skillmaster.setEmployeeId(employeedto.getEmp_id());
+			skillmaster.setSkillId(skill.getSkillId());
+			skillmaster.setProficiencyLevel(skill.getProficiencyLevel());
+			skillRepo.save(skillmaster);
+	}
+	
+}
 
-	public PmsResponseMessage deleteAndReturn(int emp_id) {
+	public PmsResponseMessage deleteAndReturn(Long emp_id) {
 		Optional<EmployeeMaster> deletedEmployee = employeerepo.findById(emp_id);
 
 		if (deletedEmployee.isPresent()) {

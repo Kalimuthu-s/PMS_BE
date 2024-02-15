@@ -106,12 +106,12 @@ public class EmployeeController {
 	}
 
 	@PostMapping("delete/{emp_id}")
-	public PmsResponseMessage deleteEmployee(@PathVariable int emp_id) {
+	public PmsResponseMessage deleteEmployee(@PathVariable Long emp_id) {
 		return service.deleteAndReturn(emp_id);
 	}
 
 	@GetMapping("findById/{emp_id}")
-	public PmsResponseMessage getById(@PathVariable Integer emp_id) {
+	public PmsResponseMessage getById(@PathVariable Long emp_id) {
 		return service.getById(emp_id);
 
 	}
