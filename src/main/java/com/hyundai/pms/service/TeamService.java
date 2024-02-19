@@ -1,6 +1,7 @@
 package com.hyundai.pms.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,6 +37,11 @@ public class TeamService {
 			e.printStackTrace();
 		}
 		return new Response(-1, "failed", "");
+	}
+	
+	public Response getAllTeamOnly() {
+		List<TeamMaster> list = tr.findAll();
+		return  new Response(1, "Success", list);
 	}
 	
 	public Optional<TeamMaster> getTeamById(int id) {

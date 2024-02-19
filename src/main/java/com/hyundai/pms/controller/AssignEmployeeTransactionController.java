@@ -73,8 +73,7 @@ public class AssignEmployeeTransactionController {
 	
 	@PostMapping("/addMultipleEmployeeTransaction")
 	public Response addMultipleEmployeeTransaction(@RequestBody EmployeeTransactionDTO emp) {
-		String response = pet.addMultipleEmployeeTransaction(emp);
-		return new Response(1, response, emp);
+		return pet.addMultipleEmployeeTransaction(emp);
 	}
 
 }

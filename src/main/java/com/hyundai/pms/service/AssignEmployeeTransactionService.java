@@ -1,5 +1,8 @@
 package com.hyundai.pms.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,11 +82,6 @@ public class AssignEmployeeTransactionService {
 		try {
 			String sql = "";
 			String sqlCondition="";
-
-//			if (dto.getAssignedStartDate()!=null && dto.getAssignedEndDate()!=null && dto.getSkill()==null && dto.getProficiency()==null) {
-//				sql += "t.employee_id not in (SELECT DISTINCT pe.employee_id FROM assign_employee_transaction pe WHERE pe.assigned_start_date>='"+dto.getAssignedStartDate()+"' && t.assigned_end_date<='"+dto.getAssignedEndDate()+"')";
-//				System.err.println("==================> only start and end date");
-//			}
 			
 			
 			
@@ -101,26 +99,6 @@ public class AssignEmployeeTransactionService {
 			}
 			
 			
-//			if(dto.getAssignedStartDate()!=null && dto.getAssignedEndDate()!=null && dto.getSkill()!=null && dto.getProficiency()!=null) {
-//				sql += "(s.skill_id='"+dto.getSkill()+"' && s.proficiency_level='"+dto.getProficiency()+"' && t.employee_id) not in (SELECT DISTINCT pe.employee_id FROM assign_employee_transaction pe WHERE pe.assigned_start_date>='"+dto.getAssignedStartDate()+"' && t.assigned_end_date<='"+dto.getAssignedEndDate()+"')";
-//				System.err.println("==================> All");
-//			}
-//			if (sql != null && !sql.isEmpty()) {
-//			    sqlCondition = " AND " + sql; // Concatenate with "AND" if sql is not empty
-//			}
-			
-		/*	String query = "select t.employee_id as employeeId, concat(e.first_name,' ',e.last_name) as employeeName, "
-					+ "t.project_id as projectId, p.project_name as projectName, "
-					+ "t.assigned_start_date as assignedStartDate, t.assigned_end_date as assignedEndDate, s.skill_id as skillId, "
-					+ "s.proficiency_level as skillProficiency from assign_employee_transaction t "
-					+ "inner join project_master p on t.project_id = p.project_id "
-					+ "inner join employee_master e on t.employee_id = e.emp_id "
-					+ "inner join skill_transaction s on t.employee_id = s.emp_id "
-					+ "where "+sql;
-			
-			*/
-			
-			
 			String query = "SELECT e.emp_id AS employeeId, CONCAT(e.first_name, ' ', e.last_name) AS employeeName "
 		            + "FROM employee_master e "
 		            + "JOIN skill_transaction s ON e.emp_id = s.emp_id ";
@@ -130,8 +108,7 @@ public class AssignEmployeeTransactionService {
 			}
 			
 			System.err.println("==================> Full query" + sql);
-//			assign_employee_transaction t 
-//			skill_transaction s
+
 			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
 
 			return result;
@@ -141,36 +118,60 @@ public class AssignEmployeeTransactionService {
 		}
 	}
 	
-	
-	public String addMultipleEmployeeTransaction(EmployeeTransactionDTO dto) {
-		List<Long> list = dto.getEmployeeId();
-		list.forEach(l->{
-			AssignEmployeeTransaction employee = new AssignEmployeeTransaction();
-			MonthlyEntries monthlyEntries = new MonthlyEntries();
-			employee.setEmployeeId(l);
-			Optional<ProjectMaster> project = projectRepository.findById(dto.getProjectId());
-			employee.setAssignedStartDate(project.get().getStartDate());
-			employee.setAssignedEndDate(project.get().getEndDate());
+
+	public Response addMultipleEmployeeTransaction(EmployeeTransactionDTO dto) {
+	    List<Long> list = dto.getEmployeeId();
+	   
+	    
+		try{
+	    list.forEach(employeeId -> {
+			
+			    if (petr.existsByEmployeeIdAndProjectId(employeeId, dto.getProjectId())) {
+						 throw new IllegalStateException("Employees "+employeeId+" is already assigned to this project");
+            }
+
+	    	AssignEmployeeTransaction employee = new AssignEmployeeTransaction();
+	    	employee.setEmployeeId(employeeId);
+
+			employee.setAssignedStartDate(dto.getAssignedStartDate());
+			employee.setAssignedEndDate(dto.getAssignedEndDate());
 			employee.setProjectId(dto.getProjectId());
-			petr.save(employee);	
-			monthlyEntries.setEmp_id(l);
-			monthlyEntries.setProjectId(dto.getProjectId());
-			String year = employee.getAssignedStartDate().substring(0, 4);
-			monthlyEntries.setYear(year);
-			monthlyEntries.setJanuary(0.0);
-			monthlyEntries.setFebruary(0.0);
-			monthlyEntries.setMarch(0.0);
-			monthlyEntries.setApril(0.0);
-			monthlyEntries.setMay(0.0);
-			monthlyEntries.setJune(0.0);
-			monthlyEntries.setJuly(0.0);
-			monthlyEntries.setAugust(0.0);
-			monthlyEntries.setSeptember(0.0);
-			monthlyEntries.setOctober(0.0);
-			monthlyEntries.setNovember(0.0);
-			monthlyEntries.setDecember(0.0);
-			monthlyEntryRepo.save(monthlyEntries);
-		});
-		return "Success";
+			petr.save(employee);
+
+			Calendar localStartDate = Calendar.getInstance();
+			localStartDate.setTime(dto.getAssignedStartDate());
+			Calendar localEndDate = Calendar.getInstance();
+			localEndDate.setTime(dto.getAssignedEndDate());
+
+	        while (localStartDate.get(Calendar.YEAR) <= localEndDate.get(Calendar.YEAR)) {
+	            MonthlyEntries monthlyEntries = new MonthlyEntries();
+	            monthlyEntries.setEmp_id(employeeId);
+	            monthlyEntries.setProjectId(dto.getProjectId());
+	            int year = localStartDate.get(Calendar.YEAR);
+	            monthlyEntries.setYear(year);
+	            monthlyEntries.setYear(year);
+	            monthlyEntries.setJanuary(0.0);
+	            monthlyEntries.setFebruary(0.0);
+	            monthlyEntries.setMarch(0.0);
+	            monthlyEntries.setApril(0.0);
+	            monthlyEntries.setMay(0.0);
+	            monthlyEntries.setJune(0.0);
+	            monthlyEntries.setJuly(0.0);
+	            monthlyEntries.setAugust(0.0);
+	            monthlyEntries.setSeptember(0.0);
+	            monthlyEntries.setOctober(0.0);
+	            monthlyEntries.setNovember(0.0);
+	            monthlyEntries.setDecember(0.0);
+	            monthlyEntries.setAssignedStartDate(dto.getAssignedStartDate());
+	            monthlyEntries.setAssignedEndDate(dto.getAssignedEndDate());
+	            monthlyEntryRepo.save(monthlyEntries);
+	           localStartDate.add(Calendar.YEAR, 1);
+	        }
+	    });
+		}
+		 catch (IllegalStateException e) {
+    		return new Response(2, e.getMessage(), null);
+		}
+	    return new Response(1, "success",null);
 	}
 }

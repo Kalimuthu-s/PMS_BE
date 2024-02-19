@@ -63,19 +63,6 @@ public class MonthlyEntriesController {
 		return monthlyEntriesService.monthlyEntriesFilter(dto);
 	}
 
-	@PostMapping("/monthlyEntriesFilterByName")
-	public Response monthlyEntriesByEmployeeId(@RequestBody MonthlyEntryDTO dto) {
-		return monthlyEntriesService.monthlyEntriesFilterByName(dto);
-	}
 
-	@PostMapping("/monthlyEntriesFilterByProject")
-	public Response monthlyEntriesFilterByProject(@RequestBody MonthlyEntryDTO dto) {
-		return monthlyEntriesService.monthlyEntriesFilterByProject(dto);
-	}
-
-	@PostMapping("/monthlyEntriesFilterByDate")
-	public Response monthlyEntriesFilterByDate(@RequestBody MonthlyEntryDTO dto) {
-		return monthlyEntriesService.monthlyEntriesFilterByDate(dto);
-	}
 
 }

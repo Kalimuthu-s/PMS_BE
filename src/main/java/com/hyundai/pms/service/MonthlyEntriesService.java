@@ -1,5 +1,6 @@
 package com.hyundai.pms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -112,7 +113,7 @@ public class MonthlyEntriesService {
 		}
 	}
 
-	private double getTotalForJanuary(String year, Long employeeId, int monthId) {
+	private double getTotalForJanuary(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getJanuary() != null)
@@ -121,7 +122,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForFebruary(String year, Long employeeId, int monthId) {
+	private double getTotalForFebruary(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getFebruary() != null)
@@ -131,7 +132,7 @@ public class MonthlyEntriesService {
 
 	}
 
-	private double getTotalForMarch(String year, Long employeeId, int monthId) {
+	private double getTotalForMarch(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getMarch() != null)
@@ -140,7 +141,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForApril(String year, Long employeeId, int monthId) {
+	private double getTotalForApril(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getApril() != null)
@@ -149,7 +150,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForMay(String year, Long employeeId, int monthId) {
+	private double getTotalForMay(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getMay() != null)
@@ -158,7 +159,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForJune(String year, Long employeeId, int monthId) {
+	private double getTotalForJune(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getJune() != null)
@@ -167,7 +168,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForJuly(String year, Long employeeId, int monthId) {
+	private double getTotalForJuly(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getJuly() != null)
@@ -176,7 +177,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForAugust(String year, Long employeeId, int monthId) {
+	private double getTotalForAugust(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getAugust() != null)
@@ -185,7 +186,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForSeptember(String year, Long employeeId, int monthId) {
+	private double getTotalForSeptember(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getSeptember() != null)
@@ -194,7 +195,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForOctober(String year, Long employeeId, int monthId) {
+	private double getTotalForOctober(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getOctober() != null)
@@ -203,7 +204,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForDecember(String year, Long employeeId, int monthId) {
+	private double getTotalForDecember(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getNovember() != null)
@@ -212,7 +213,7 @@ public class MonthlyEntriesService {
 		return 0.0;
 	}
 
-	private double getTotalForNovember(String year, Long employeeId, int monthId) {
+	private double getTotalForNovember(int year, Long employeeId, int monthId) {
 		List<MonthlyEntries> existingEntries = monthlyEntriesRepository.findByEmpIdAndYear(employeeId, year, monthId);
 		if (!existingEntries.isEmpty()) {
 			return existingEntries.stream().filter(data -> data.getDecember() != null)
@@ -235,195 +236,217 @@ public class MonthlyEntriesService {
 		return new Response(1, "Success", list);
 	}
 
+//	public Response monthlyEntriesFilter(MonthlyEntryDTO dto) {
+//		try {
+//			String whereCondition = "";
+//			String selectCondition = "";
+//
+//			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() == null
+//					&& dto.getEndDate() == null) {
+//				System.err.println("=========> employee filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition = "where m.emp_id=" + dto.getEmployeeId()+" and m.year="+dto.getYear();
+//			}
+//			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() == null
+//					&& dto.getEndDate() == null) {
+//				System.err.println("=========> project filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition = "where m.project_id=" + dto.getProjectId()+" and m.year="+dto.getYear();
+//			}
+//			
+//			if (dto.getEmployeeId() != null && dto.getProjectId() != null && dto.getStartDate() == null
+//					&& dto.getEndDate() == null) {
+//				System.err.println("=========> project & employee filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition = "where m.emp_id=" + dto.getEmployeeId()+" and m.project_id=" + dto.getProjectId()+" and m.year="+dto.getYear();
+//			}
+//			
+//			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null) {
+//				int startMonth = dto.getStartDate().getMonth() + 1;
+//				int endMonth = dto.getEndDate().getMonth() + 1;
+//				int startYear = dto.getStartDate().getYear() + 1900;
+//				int endYear = dto.getEndDate().getYear() + 1900;
+//				
+//				System.err.println("=========>employee & date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition="where m.emp_id=" + dto.getEmployeeId()+" and m.year="+dto.getYear();
+//				for (int year = startYear; year <= endYear; year++) {
+//					for (int month = startMonth; month <= endMonth; month++) {
+//						String monthName = getMonthName(month);
+//						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
+//								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
+//								+ "Total,";
+//					}
+//				}
+//			}
+//			
+//			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null) {
+//				int startMonth = dto.getStartDate().getMonth() + 1;
+//				int endMonth = dto.getEndDate().getMonth() + 1;
+//				int startYear = dto.getStartDate().getYear() + 1900;
+//				int endYear = dto.getEndDate().getYear() + 1900;
+//				
+//				System.err.println("=========>project & date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition="where m.project_id=" + dto.getProjectId()+" and m.year="+dto.getYear();
+//				for (int year = startYear; year <= endYear; year++) {
+//					for (int month = startMonth; month <= endMonth; month++) {
+//						String monthName = getMonthName(month);
+//						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
+//								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
+//								+ "Total,";
+//					}
+//				}
+//			}
+//
+//			if (dto.getEmployeeId() == null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null) {
+//				int startMonth = dto.getStartDate().getMonth() + 1;
+//				int endMonth = dto.getEndDate().getMonth() + 1;
+//				int startYear = dto.getStartDate().getYear() + 1900;
+//				int endYear = dto.getEndDate().getYear() + 1900;
+//				
+//				System.err.println("=========> date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition="where m.year="+dto.getYear();
+//				for (int year = startYear; year <= endYear; year++) {
+//					for (int month = startMonth; month <= endMonth; month++) {
+//						String monthName = getMonthName(month);
+//						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
+//								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
+//								+ "Total,";
+//					}
+//				}
+//			}
+//			
+//			if (dto.getEmployeeId() != null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null) {
+//				int startMonth = dto.getStartDate().getMonth() + 1;
+//				int endMonth = dto.getEndDate().getMonth() + 1;
+//				int startYear = dto.getStartDate().getYear() + 1900;
+//				int endYear = dto.getEndDate().getYear() + 1900;
+//				
+//				System.err.println("=========>all filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getYear()+dto.getStartDate()+dto.getEndDate());
+//				whereCondition="where m.emp_id=" + dto.getEmployeeId()+" and m.project_id=" + dto.getProjectId()+" and m.year="+dto.getYear();
+//				for (int year = startYear; year <= endYear; year++) {
+//					for (int month = startMonth; month <= endMonth; month++) {
+//						String monthName = getMonthName(month);
+//						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
+//								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
+//								+ "Total,";
+//					}
+//				}
+//			}
+//
+//			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
+//					+ selectCondition + "m.year as year, "
+//					+ "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
+//					+ "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
+//					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
+//					+ "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition + " "
+//					+ "GROUP BY m.emp_id, e.first_name, e.last_name, m.year";
+//
+//			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+//
+//			return new Response(1, "Success", result);
+//		} catch (DataAccessException e) {
+//			e.printStackTrace();
+//			return new Response(1, "Failed", null);
+//		}
+//	}
+//	private String getMonthName(int month) {
+//		switch (month) {
+//		case 1:
+//			return "january";
+//		case 2:
+//			return "february";
+//		case 3:
+//			return "march";
+//		case 4:
+//			return "april";
+//		case 5:
+//			return "may";
+//		case 6:
+//			return "june";
+//		case 7:
+//			return "july";
+//		case 8:
+//			return "august";
+//		case 9:
+//			return "september";
+//		case 10:
+//			return "october";
+//		case 11:
+//			return "november";
+//		case 12:
+//			return "december";
+//		default:
+//			return null;
+//		}
+//	}
+
+	
 	public Response monthlyEntriesFilter(MonthlyEntryDTO dto) {
-		try {
-			String whereCondition = "";
-			String selectCondition = "";
+	    try {
+	        List<Map<String, Object>> finalResult = new ArrayList<>();
 
-			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() == null
-					&& dto.getEndDate() == null) {
-				whereCondition = "where m.emp_id=" + dto.getEmployeeId();
-			}
-			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() == null
-					&& dto.getEndDate() == null) {
-				whereCondition = "where m.project_id=" + dto.getProjectId();
-			}
+	        int startYear = dto.getStartDate().getYear() + 1900;
+	        int endYear = dto.getEndDate().getYear() + 1900;
 
-			if (dto.getStartDate() != null && dto.getEndDate() != null) {
-				int startMonth = dto.getStartDate().getMonth() + 1;
-				int endMonth = dto.getEndDate().getMonth() + 1;
-				int startYear = dto.getStartDate().getYear() + 1900;
-				int endYear = dto.getEndDate().getYear() + 1900;
+	        System.err.println("=========> date filter " + dto.getEmployeeId() + dto.getProjectId() + dto.getStartDate() + dto.getEndDate());
 
-				for (int year = startYear; year <= endYear; year++) {
-					for (int month = startMonth; month <= endMonth; month++) {
-						String monthName = getMonthName(month);
-						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
-								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
-								+ "Total,";
-					}
-				}
-			}
+	        for (int year = startYear; year <= endYear; year++) {
+	            String whereCondition = "where m.year=" + year;
+	            String selectCondition = "";
 
-			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
-					+ selectCondition + "m.year as year, "
-					+ "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
-					+ "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
-					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
-					+ "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition + " "
-					+ "GROUP BY m.emp_id, e.first_name, e.last_name, m.year";
+	            for (int month = 1; month <= 12; month++) {
+	                String monthName = getMonthName(month);
+	                selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
+	                        + "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
+	                        + "Total,";
+	            }
 
-			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+	            String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
+	                    + selectCondition + "m.year as year, "
+	                    + "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
+	                    + "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
+	                    + "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
+	                    + "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition + " "
+	                    + "GROUP BY m.emp_id, e.first_name, e.last_name, m.year";
 
-			return new Response(1, "Success", result);
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			return new Response(1, "Failed", null);
-		}
-	}
+	            List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+	            finalResult.addAll(result);
+	        }
 
-	public Response monthlyEntriesFilterByName(MonthlyEntryDTO dto) {
-		try {
-			String whereCondition = "";
-
-			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() == null
-					&& dto.getEndDate() == null) {
-				whereCondition = "where m.emp_id=" + dto.getEmployeeId()+" and m.year="+dto.getYear();
-			}
-			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName,sum(m.january)as januaryTotal,sum(m.february)as \r\n"
-					+ "februaryTotal,sum(m.march)as marchTotal,sum(m.april)as aprilTotal,sum(m.may)as mayTotal,sum(m.june)as juneTotal,sum(m.july)as julyTotal,\r\n"
-					+ "sum(m.august)as augustTotal,sum(m.september)as septemberTotal,sum(m.october)as octoberTotal,sum(m.november)as novemberTotal,sum(m.december)as decemberTotal, "
-					+ "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
-					+ "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
-					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
-					+ "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition + " "
-					+ "GROUP BY m.emp_id,e.first_name";
-
-			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
-
-			return new Response(1, "Success", result);
-
-		} catch (Exception e) {
-			return new Response(2, "Error", dto);
-		}
-	}
-
-	public Response monthlyEntriesFilterByProject(MonthlyEntryDTO dto) {
-		try {
-			String whereCondition = "";
-
-			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() == null
-					&& dto.getEndDate() == null) {
-				whereCondition = "where m.project_id=" + dto.getProjectId()+" and m.year="+dto.getYear();
-			}
-			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName,sum(m.january)as januaryTotal,sum(m.february)as \r\n"
-					+ "februaryTotal,sum(m.march)as marchTotal,sum(m.april)as aprilTotal,sum(m.may)as mayTotal,sum(m.june)as juneTotal,sum(m.july)as julyTotal,\r\n"
-					+ "sum(m.august)as augustTotal,sum(m.september)as septemberTotal,sum(m.october)as octoberTotal,sum(m.november)as novemberTotal,sum(m.december)as decemberTotal, "
-					+ "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
-					+ "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
-					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
-					+ "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition
-					+ " GROUP BY m.emp_id,e.first_name";
-
-			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
-
-			return new Response(1, "Success", result);
-		} catch (Exception e) {
-			return new Response(2, "Error", dto);
-		}
-	}
-
-	public Response monthlyEntriesFilterByDate(MonthlyEntryDTO dto) {
-		try {
-			 String whereCondition = "";
-			String selectCondition = "";
-
-			if (dto.getStartDate() != null && dto.getEndDate() != null) {
-				int startMonth = dto.getStartDate().getMonth() + 1;
-				int endMonth = dto.getEndDate().getMonth() + 1;
-				int startYear = dto.getStartDate().getYear() + 1900;
-				int endYear = dto.getEndDate().getYear() + 1900;
-
-				for (int year = startYear; year <= endYear; year++) {
-					for (int month = startMonth; month <= endMonth; month++) {
-						String monthName = getMonthName(month);
-						selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + year + "-" + month
-								+ "-01') = " + month + " THEN m." + monthName + " ELSE 0 END) AS " + monthName
-								+ "Total,";
-					}
-				}
-			}
-			
-			whereCondition="where m.year="+dto.getYear();
-			
-			
-			
-			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
-					+ selectCondition + " m.year as year, "
-					+ "(SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) as yearlyTotal, "
-					+ "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)) / 12.0, 2)*100 as yearlyPercentage "
-					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
-					+ "INNER JOIN project_master p ON m.project_id = p.project_id  " + whereCondition
-					+ " GROUP BY m.emp_id, e.first_name, e.last_name, m.year";
-			
-			/*
-			String query = "SELECT " + 
-				    "m.emp_id as employeeId, " + "concat(e.first_name,' ',e.last_name) as employeeName,m.year as year "+selectCondition+
-				    "ROUND(SUM(m.january), 2) as januaryTotal, " + 
-				    "ROUND(SUM(m.february), 2) as februaryTotal, " + 
-				    "ROUND(SUM(m.march), 2) as marchTotal, " + 
-				    "ROUND(SUM(m.april), 2) as aprilTotal, " + 
-				    "ROUND(SUM(m.may), 2) as mayTotal, " + 
-				    "ROUND(SUM(m.june), 2) as juneTotal, " + 
-				    "ROUND(SUM(m.july), 2) as julyTotal, " + 
-				    "ROUND(SUM(m.august), 2) as augustTotal, " + 
-				    "ROUND(SUM(m.september), 2) as septemberTotal, " + 
-				    "ROUND(SUM(m.october), 2) as octoberTotal, " + 
-				    "ROUND(SUM(m.november), 2) as novemberTotal, " + 
-				    "ROUND(SUM(m.december), 2) as decemberTotal, " + 
-				    "ROUND((SUM(m.january) + SUM(m.february) + SUM(m.march) + SUM(m.april) + SUM(m.may) + SUM(m.june) + SUM(m.july) + SUM(m.august) + SUM(m.september) + SUM(m.october) + SUM(m.november) + SUM(m.december)), 2) as total " + 
-				    "FROM monthly_entries m " +  "INNER JOIN employee_master e ON m.emp_id = e.emp_id "+
-				    "GROUP BY m.emp_id, e.first_name, e.last_name, m.year";
-
-*/
-			List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
-
-			return new Response(1, "Success", result);
-
-		} catch (Exception e) {
-			return new Response(2, "Error", dto);
-		}
+	        return new Response(1, "Success", finalResult);
+	    } catch (DataAccessException e) {
+	        e.printStackTrace();
+	        return new Response(1, "Failed", null);
+	    }
 	}
 
 	private String getMonthName(int month) {
-		switch (month) {
-		case 1:
-			return "january";
-		case 2:
-			return "february";
-		case 3:
-			return "march";
-		case 4:
-			return "april";
-		case 5:
-			return "may";
-		case 6:
-			return "june";
-		case 7:
-			return "july";
-		case 8:
-			return "august";
-		case 9:
-			return "september";
-		case 10:
-			return "october";
-		case 11:
-			return "november";
-		case 12:
-			return "december";
-		default:
-			return null;
-		}
+	    switch (month) {
+	        case 1:
+	            return "january";
+	        case 2:
+	            return "february";
+	        case 3:
+	            return "march";
+	        case 4:
+	            return "april";
+	        case 5:
+	            return "may";
+	        case 6:
+	            return "june";
+	        case 7:
+	            return "july";
+	        case 8:
+	            return "august";
+	        case 9:
+	            return "september";
+	        case 10:
+	            return "october";
+	        case 11:
+	            return "november";
+	        case 12:
+	            return "december";
+	        default:
+	            return null;
+	    }
 	}
+
 
 }

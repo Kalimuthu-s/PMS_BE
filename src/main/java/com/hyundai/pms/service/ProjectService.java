@@ -1,5 +1,6 @@
 package com.hyundai.pms.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.hyundai.pms.entity.AssignEmployeeTransaction;
 import com.hyundai.pms.entity.AssignManagerTransaction;
 import com.hyundai.pms.entity.ProjectMaster;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.AssignEmployeeTransactionRepository;
 import com.hyundai.pms.repository.AssignManagerTransactionRepository;
 import com.hyundai.pms.repository.ProjectRepository;
@@ -31,12 +33,22 @@ public class ProjectService {
 		return pr.findById(id);
 	}
 
-	public ProjectMaster addProject(ProjectMaster project) {
-		project = pr.save(project);
+	public Response addProject(ProjectMaster project) {
+		 String startDateStr = project.getStartDate();
+	    String endDateStr = project.getEndDate();
 
-		this.saveProjectTransaction(project);
-
-		return project;
+	    LocalDate startDate = LocalDate.parse(startDateStr);
+	    LocalDate endDate = LocalDate.parse(endDateStr);
+	    if(pr.findExistingProject(project.getProjectName()).isEmpty()) {
+	    	pr.save(project);
+	    	saveProjectTransaction(project);
+	    	return new Response(1, "Success", project);
+	    }
+		  if (startDate.isAfter(endDate)) {
+            return new Response(2,"Start date cannot be greater than end date.",null);
+        }else
+    	return new Response(2,"A project with the same name already exists.",null);
+		
 	}
 
 	private void saveProjectTransaction(ProjectMaster projectMaster) {

@@ -1,5 +1,6 @@
 package com.hyundai.pms.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -54,6 +55,10 @@ public class MonthlyEntries {
 	@Column(name ="december")
 	private Double december;
 	@Column(name ="year")
-	private String year;
+	private int year;
+	@Column(name="assigned_start_date")
+	private Date assignedStartDate;
+	@Column(name="assigned_end_date")
+	private Date assignedEndDate;
 
 }

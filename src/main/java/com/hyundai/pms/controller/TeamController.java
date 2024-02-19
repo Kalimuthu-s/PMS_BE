@@ -31,6 +31,11 @@ public class TeamController {
 		return ts.getAllTeam(paginationWebModel);
 	}
 	
+	@GetMapping("/getAllTeamOnly")
+	public Response getAllTeamOnly() {
+		return ts.getAllTeamOnly();
+	}
+	
 	@GetMapping("/getTeamById/{id}")
 	public Response getTeamById(@PathVariable int id) {
 		Optional<TeamMaster> team=ts.getTeamById(id);

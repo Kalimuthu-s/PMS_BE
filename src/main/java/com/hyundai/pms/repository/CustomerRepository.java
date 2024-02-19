@@ -14,7 +14,8 @@ import com.hyundai.pms.entity.CustomerMaster;
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerMaster,Long> {
 	
-	@Query("SELECT c FROM CustomerMaster c WHERE c.customerName LIKE %:searchKey% OR c.customerLocation LIKE %:searchKey% OR c.partner LIKE %:searchKey%")
+	@Query("SELECT c FROM CustomerMaster c WHERE c.customerName LIKE %:searchKey% "
+			+ "OR c.customerLocation LIKE %:searchKey% OR c.partner LIKE %:searchKey%")
 	Page<List<CustomerMaster>> getAllCustomers(Pageable pageable,String searchKey);
 
 

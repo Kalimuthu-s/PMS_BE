@@ -21,5 +21,7 @@ public interface ProjectRepository extends JpaRepository<ProjectMaster, Integer>
 			+ "inner join employee_master e on p.manager_id=e.emp_id",nativeQuery = true)
 	List<Map<String, Object>> findAllProject();
 	
+	@Query(value = "select * from project_master where project_name=?1",nativeQuery = true)
+	List<ProjectMaster> findExistingProject(String projectName);
 
 }

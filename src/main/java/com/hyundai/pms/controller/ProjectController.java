@@ -41,8 +41,8 @@ public class ProjectController {
 	
 	@PostMapping("/addProject")
 	public Response addProject(@RequestBody ProjectMaster project) {
-		ps.addProject(project);
-		return new Response(1, "Success", project);		
+//		ps.addProject(project);
+		return ps.addProject(project);		
 	}
 	
 	@PutMapping("/updateProject")

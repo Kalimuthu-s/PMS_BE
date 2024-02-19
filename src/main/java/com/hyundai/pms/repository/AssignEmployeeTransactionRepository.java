@@ -31,4 +31,6 @@ public interface AssignEmployeeTransactionRepository extends JpaRepository<Assig
 //	@Query(value = "select * from assign_employee_transaction where assigned_start_date>=?1 = assigned_end_date=?2",nativeQuery = true)
 //	List<Map<String, Object>> getEmployeesByDate(String startDate,String endDate);
 
+boolean existsByEmployeeIdAndProjectId(Long employeeId, int projectId);
+
 }

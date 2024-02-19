@@ -38,8 +38,8 @@ public class LocationService {
 			try {
 				Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 				
-				
-				Page<?> page = locationRepository.findAll(pageable);
+
+				var page = locationRepository.findAllLocation(pageable,paginationWebModel.getSearchKey());
 				
 				response.put("count", page.getTotalElements());
 				response.put("content", page.getContent());
