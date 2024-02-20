@@ -25,4 +25,6 @@ public class MonthlyEntryDTO {
 	
 	private String year;
 	
+	private Integer teamId;
+	
 }

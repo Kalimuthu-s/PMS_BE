@@ -246,7 +246,7 @@ public class MonthlyEntriesService {
 		    String totalCondition = "";
 		    int monthCount=0;
 			
-			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null) {
+			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()==null) {
 				System.err.println("=========> employee and date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
 
 				LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -301,7 +301,7 @@ public class MonthlyEntriesService {
 			    }
 			}
 			
-			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null) {
+			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()==null) {
 				System.err.println("=========> project and date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
 
 				LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -311,6 +311,7 @@ public class MonthlyEntriesService {
 			    LocalDate endDateForYear = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			    LocalDate startDateForTotal = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			    LocalDate endDateForTotal = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
 			    boolean isFirstIteration = true;
 			    boolean isFirstIteration1 = true;
 
@@ -338,7 +339,7 @@ public class MonthlyEntriesService {
 			        startDate = startDate.plusMonths(1);
 			    }
 			   
-			    whereCondition = "where m.project_id='"+dto.getProjectId()+" and m.year in ("+yearCondition+")";
+			    whereCondition = "where m.project_id='"+dto.getProjectId()+"' and m.year in ("+yearCondition+")";
 
 			    while (!startDateForTotal.isAfter(endDateForTotal)) {
 			        String monthName = startDateForTotal.getMonth().toString().toLowerCase();
@@ -356,7 +357,7 @@ public class MonthlyEntriesService {
 			    }
 			}
 
-			if (dto.getEmployeeId() == null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null) {
+			if (dto.getEmployeeId() == null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()==null) {
 				System.err.println("=========> date only filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
 
 				LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -411,10 +412,66 @@ public class MonthlyEntriesService {
 			    }
 			}
 			
+			if (dto.getEmployeeId() == null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()!=null) {
+				System.err.println("=========> team & date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
+
+				LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    
+			    LocalDate startDateForYear = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForYear = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate startDateForTotal = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForTotal = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    boolean isFirstIteration = true;
+			    boolean isFirstIteration1 = true;
+
+			    while(!startDateForYear.isAfter(endDateForYear)) {
+			        String year = String.valueOf(startDateForYear.getYear());
+			        if (!isFirstIteration) {
+			            yearCondition += ",";
+			        } else {
+			            isFirstIteration = false;
+			        }
+			        System.err.println("=========> Year is "+year);
+			        
+			        yearCondition += "'"+year+"'";
+			        
+			        startDateForYear = startDateForYear.plusYears(1);
+			    }
+			    String lastYear = String.valueOf(endDateForYear.getYear());
+			    if (!yearCondition.contains("'" + lastYear + "'")) {
+			        yearCondition += ",'" + lastYear + "'";
+			    }
+			    while (!startDate.isAfter(endDate)) {
+			        String monthName = startDate.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDate.getYear());
+			        selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDate + "') = " + startDate.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) AS " + monthName + year + "Total,";
+			        startDate = startDate.plusMonths(1);
+			    }
+			   
+			    whereCondition = "where t.team_id='"+dto.getTeamId()+"' and m.year in ("+yearCondition+")";
+
+			    while (!startDateForTotal.isAfter(endDateForTotal)) {
+			        String monthName = startDateForTotal.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDateForTotal.getYear());
+			        if (!isFirstIteration1) {
+			            totalCondition += "+";
+			        } else {
+			            isFirstIteration1 = false;
+			        }
+			        totalCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDateForTotal + "') = " + startDateForTotal.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) ";
+			        startDateForTotal = startDateForTotal.plusMonths(1);
+			        System.err.println("=======> month count "+monthCount);
+			        monthCount =monthCount+1;
+			       
+			    }
+			}
+			
+			
 
 			
-			if (dto.getEmployeeId() != null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null) {
-				System.err.println("=========> All filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
+			if (dto.getEmployeeId() != null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()==null) {
+				System.err.println("=========> emp,proj,date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
 
 			    LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			    LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -467,12 +524,178 @@ public class MonthlyEntriesService {
 			       
 			    }
 			}
+			
+			if (dto.getEmployeeId() != null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()!=null) {
+				System.err.println("=========> all filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
+
+			    LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    
+			    LocalDate startDateForYear = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForYear = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate startDateForTotal = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForTotal = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    boolean isFirstIteration = true;
+			    boolean isFirstIteration1 = true;
+
+			    while(!startDateForYear.isAfter(endDateForYear)) {
+			        String year = String.valueOf(startDateForYear.getYear());
+			        if (!isFirstIteration) {
+			            yearCondition += ",";
+			        } else {
+			            isFirstIteration = false;
+			        }
+			        System.err.println("=========> Year is "+year);
+			        
+			        yearCondition += "'"+year+"'";
+			        
+			        startDateForYear = startDateForYear.plusYears(1);
+			    }
+			    String lastYear = String.valueOf(endDateForYear.getYear());
+			    if (!yearCondition.contains("'" + lastYear + "'")) {
+			        yearCondition += ",'" + lastYear + "'";
+			    }
+			    while (!startDate.isAfter(endDate)) {
+			        String monthName = startDate.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDate.getYear());
+			        selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDate + "') = " + startDate.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) AS " + monthName + year + "Total,";
+			        startDate = startDate.plusMonths(1);
+			    }
+			   
+			    whereCondition = "where m.emp_id=" + dto.getEmployeeId() + " and m.project_id=" + dto.getProjectId() + " and t.team_id='"+dto.getTeamId()+"' and m.year in ("+yearCondition+")";
+
+			    while (!startDateForTotal.isAfter(endDateForTotal)) {
+			        String monthName = startDateForTotal.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDateForTotal.getYear());
+			        if (!isFirstIteration1) {
+			            totalCondition += "+";
+			        } else {
+			            isFirstIteration1 = false;
+			        }
+			        totalCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDateForTotal + "') = " + startDateForTotal.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) ";
+			        startDateForTotal = startDateForTotal.plusMonths(1);
+			        System.err.println("=======> month count "+monthCount);
+			        monthCount =monthCount+1;
+			       
+			    }
+			}
+			
+			if (dto.getEmployeeId() != null && dto.getProjectId() == null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()!=null) {
+				System.err.println("=========> Employee,Team,Date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
+
+			    LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    
+			    LocalDate startDateForYear = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForYear = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate startDateForTotal = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForTotal = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    boolean isFirstIteration = true;
+			    boolean isFirstIteration1 = true;
+
+			    while(!startDateForYear.isAfter(endDateForYear)) {
+			        String year = String.valueOf(startDateForYear.getYear());
+			        if (!isFirstIteration) {
+			            yearCondition += ",";
+			        } else {
+			            isFirstIteration = false;
+			        }
+			        System.err.println("=========> Year is "+year);
+			        
+			        yearCondition += "'"+year+"'";
+			        
+			        startDateForYear = startDateForYear.plusYears(1);
+			    }
+			    String lastYear = String.valueOf(endDateForYear.getYear());
+			    if (!yearCondition.contains("'" + lastYear + "'")) {
+			        yearCondition += ",'" + lastYear + "'";
+			    }
+			    while (!startDate.isAfter(endDate)) {
+			        String monthName = startDate.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDate.getYear());
+			        selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDate + "') = " + startDate.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) AS " + monthName + year + "Total,";
+			        startDate = startDate.plusMonths(1);
+			    }
+			   
+			    whereCondition = "where m.emp_id=" + dto.getEmployeeId() + " and t.team_id='"+dto.getTeamId()+"' and m.year in ("+yearCondition+")";
+
+			    while (!startDateForTotal.isAfter(endDateForTotal)) {
+			        String monthName = startDateForTotal.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDateForTotal.getYear());
+			        if (!isFirstIteration1) {
+			            totalCondition += "+";
+			        } else {
+			            isFirstIteration1 = false;
+			        }
+			        totalCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDateForTotal + "') = " + startDateForTotal.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) ";
+			        startDateForTotal = startDateForTotal.plusMonths(1);
+			        System.err.println("=======> month count "+monthCount);
+			        monthCount =monthCount+1;
+			       
+			    }
+			}
+			
+			if (dto.getEmployeeId() == null && dto.getProjectId() != null && dto.getStartDate() != null && dto.getEndDate() != null && dto.getTeamId()!=null) {
+				System.err.println("=========> Project,Team,Date filter "+dto.getEmployeeId()+dto.getProjectId()+dto.getStartDate()+dto.getEndDate());
+
+			    LocalDate startDate = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDate = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    
+			    LocalDate startDateForYear = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForYear = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate startDateForTotal = dto.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    LocalDate endDateForTotal = dto.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			    boolean isFirstIteration = true;
+			    boolean isFirstIteration1 = true;
+
+			    while(!startDateForYear.isAfter(endDateForYear)) {
+			        String year = String.valueOf(startDateForYear.getYear());
+			        if (!isFirstIteration) {
+			            yearCondition += ",";
+			        } else {
+			            isFirstIteration = false;
+			        }
+			        System.err.println("=========> Year is "+year);
+			        
+			        yearCondition += "'"+year+"'";
+			        
+			        startDateForYear = startDateForYear.plusYears(1);
+			    }
+			    String lastYear = String.valueOf(endDateForYear.getYear());
+			    if (!yearCondition.contains("'" + lastYear + "'")) {
+			        yearCondition += ",'" + lastYear + "'";
+			    }
+			    while (!startDate.isAfter(endDate)) {
+			        String monthName = startDate.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDate.getYear());
+			        selectCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDate + "') = " + startDate.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) AS " + monthName + year + "Total,";
+			        startDate = startDate.plusMonths(1);
+			    }
+			   
+			    whereCondition = "where m.project_id=" + dto.getProjectId() + " and t.team_id='"+dto.getTeamId()+"' and m.year in ("+yearCondition+")";
+
+			    while (!startDateForTotal.isAfter(endDateForTotal)) {
+			        String monthName = startDateForTotal.getMonth().toString().toLowerCase();
+			        String year = String.valueOf(startDateForTotal.getYear());
+			        if (!isFirstIteration1) {
+			            totalCondition += "+";
+			        } else {
+			            isFirstIteration1 = false;
+			        }
+			        totalCondition += "SUM(CASE WHEN m.year = " + year + " AND MONTH('" + startDateForTotal + "') = " + startDateForTotal.getMonthValue() + " THEN m." + monthName + " ELSE 0 END) ";
+			        startDateForTotal = startDateForTotal.plusMonths(1);
+			        System.err.println("=======> month count "+monthCount);
+			        monthCount =monthCount+1;
+			       
+			    }
+			}
 			 
 
-			String query = "SELECT m.emp_id as employeeId, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
+			String query = "SELECT m.emp_id as employeeId, e.hire_date as hireDate, CONCAT(e.first_name, ' ', e.last_name) as employeeName, "
 					+ selectCondition 
 					+ "(("+totalCondition+") / "+monthCount+")*100 as yearlyPercentage "
 					+ "FROM monthly_entries m INNER JOIN employee_master e ON m.emp_id = e.emp_id "
+					+ "INNER JOIN team_master t ON t.team_id=e.team_id "
 					+ "INNER JOIN project_master p ON m.project_id = p.project_id " + whereCondition + " "
 					+ "GROUP BY m.emp_id, e.first_name, e.last_name";
 			
