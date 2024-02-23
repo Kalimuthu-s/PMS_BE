@@ -123,6 +123,16 @@ public class OverallUtilizationService {
 			return new Response(2, "Error getting the data", null);
 		}
 	}
+	
+//	public Response getAllConsolidatedData() {
+//		try {
+//			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidatedData();
+//			return new Response(1, "Consolidated Data Getting Successfully", monthlyData);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new Response(2, "Error getting the data", null);
+//		}
+//	}
 
 
 }

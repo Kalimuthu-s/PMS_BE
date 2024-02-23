@@ -42,4 +42,9 @@ public class OverallUtilizationController {
 		return overallUtilizationRepo.getAllConsolidated(year);
 	}
 	
+//	@GetMapping("/getAllConsolidatedData")
+//	public Response getAllConsolidatedData() {
+//		return overallUtilizationRepo.getAllConsolidatedData();
+//	}
+	
 }

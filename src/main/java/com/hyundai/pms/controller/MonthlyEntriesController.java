@@ -57,10 +57,30 @@ public class MonthlyEntriesController {
 	public Response getByProjectId(@PathVariable int projectId) {
 		return monthlyEntriesService.findByProjectId(projectId);
 	}
+	
+	@GetMapping("/by-employee/{employeeId}")
+	public Response getByemployeeId(@PathVariable int employeeId) {
+		return monthlyEntriesService.findByEmployeeId(employeeId);
+	}
 
 	@PostMapping("/monthlyEntriesFilter")
 	public Response monthlyEntriesFilter(@RequestBody MonthlyEntryDTO dto) {
 		return monthlyEntriesService.monthlyEntriesFilter(dto);
+	}
+	
+	@PostMapping("/monthlyEntriesFilters")
+	public Response monthlyEntriesFilters(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.monthlyEntriesFilters(dto);
+	}
+	
+	@PostMapping("/projectUtilizationFilter")
+	public Response projectUtilizationFilter(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.projectUtilizationFilter(dto);
+	}
+	
+	@GetMapping("/getAllProjectUtilization")
+	public Response getAllProjectUtilization() {
+		return monthlyEntriesService.getAllProjectUtilization();
 	}
 
 
