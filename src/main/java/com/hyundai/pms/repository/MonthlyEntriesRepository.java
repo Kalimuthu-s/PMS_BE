@@ -19,13 +19,13 @@ public interface MonthlyEntriesRepository extends JpaRepository<MonthlyEntries, 
 	List<Map<String, Object>> findByProjectId(int projectId);
 
 	@Query(value = "SELECT ANY_VALUE(m.month_id) as monthlyId, ANY_VALUE(m.emp_id) as emp_id,concat(ANY_VALUE(e.first_name),' ',ANY_VALUE(e.last_name)) as employeeName, ANY_VALUE(m.project_id) as projectId,p.project_name as projectName,"
-			+ "ANY_VALUE(m.january) as january,ANY_VALUE(m.february) as february,ANY_VALUE(m.march) as march,ANY_VALUE(m.april) as april,ANY_VALUE(m.may) as may,ANY_VALUE(m.june) as june,ANY_VALUE(m.july) as july,"
-			+ "ANY_VALUE(m.august) as august,ANY_VALUE(m.september) as september,ANY_VALUE(m.october) as october,ANY_VALUE(m.november) as november,ANY_VALUE(m.december) as december, "
+			+ "ANY_VALUE(m.january) as sumOfJanuary,ANY_VALUE(m.february) as sumOfFebruary,ANY_VALUE(m.march) as sumOfMarch,ANY_VALUE(m.april) as sumOfApril,ANY_VALUE(m.may) as sumOfMay,ANY_VALUE(m.june) as sumOfJune,ANY_VALUE(m.july) as sumOfJuly,"
+			+ "ANY_VALUE(m.august) as sumOfAugust,ANY_VALUE(m.september) as sumOfSeptember,ANY_VALUE(m.october) as sumOfOctober,ANY_VALUE(m.november) as sumOfNovember,ANY_VALUE(m.december) as sumOfDecember, "
 			+ "SUM(m.january + m.february + m.march + m.april + m.may + m.june + m.july "
 			+ "+ m.august + m.september + m.october + m.november + m.december ) as total "
 			+ "FROM monthly_entries m inner join employee_master e on m.emp_id=e.emp_id inner join project_master p on m.project_id=p.project_id where m.emp_id=?1 "
 			+ "group by p.project_name", nativeQuery = true)
-	List<Map<String, Object>> findByEmployeeId(int employeeId);
+	List<Map<String, Object>> findByEmployeeId(String employeeId);
 
 	@Query(value = "SELECT m.month_id as monthlyId,m.emp_id as emp_id,concat(e.first_name,' ',e.last_name) as employeeName, m.project_id as projectId,p.project_name as projectName,"
 			+ "m.january as january,m.february as february,m.march as march,m.april as april,m.may as may,m.june as june,m.july as july,"

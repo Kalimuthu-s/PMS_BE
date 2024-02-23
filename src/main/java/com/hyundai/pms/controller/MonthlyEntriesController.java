@@ -58,9 +58,9 @@ public class MonthlyEntriesController {
 		return monthlyEntriesService.findByProjectId(projectId);
 	}
 	
-	@GetMapping("/by-employee/{employeeId}")
-	public Response getByemployeeId(@PathVariable int employeeId) {
-		return monthlyEntriesService.findByEmployeeId(employeeId);
+	@PostMapping("/by-employee")
+	public Response getByemployeeId(@RequestBody MonthlyEntryDTO dto) {
+		return monthlyEntriesService.findByEmployeeId(dto);
 	}
 
 	@PostMapping("/monthlyEntriesFilter")
