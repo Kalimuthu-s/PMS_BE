@@ -68,10 +68,10 @@ public class MonthlyEntriesController {
 		return monthlyEntriesService.monthlyEntriesFilter(dto);
 	}
 	
-	@PostMapping("/monthlyEntriesFilters")
-	public Response monthlyEntriesFilters(@RequestBody MonthlyEntryDTO dto) {
-		return monthlyEntriesService.monthlyEntriesFilters(dto);
-	}
+//	@PostMapping("/monthlyEntriesFilters")
+//	public Response monthlyEntriesFilters(@RequestBody MonthlyEntryDTO dto) {
+//		return monthlyEntriesService.monthlyEntriesFilters(dto);
+//	}
 	
 	@PostMapping("/projectUtilizationFilter")
 	public Response projectUtilizationFilter(@RequestBody MonthlyEntryDTO dto) {

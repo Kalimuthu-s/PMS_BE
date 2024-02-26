@@ -120,6 +120,7 @@ public class AssignEmployeeTransactionService {
 	
 
 	public Response addMultipleEmployeeTransaction(EmployeeTransactionDTO dto) {
+		System.err.println("############################> "+dto.getAssignedStartDate()+"#########> "+dto.getAssignedEndDate());
 	    List<Long> list = dto.getEmployeeId();
 	   
 	    
