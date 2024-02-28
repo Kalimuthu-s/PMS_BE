@@ -15,7 +15,8 @@ import com.hyundai.pms.entity.TeamMaster;
 public interface TeamRepository extends JpaRepository<TeamMaster, Integer>{
 	
 	@Query(value = "select t.team_id as teamId,t.team_name as teamName,t.dept_id as departmentId, "
-			+ "t.team_grade teamGrade,d.dept_name as departmentName from team_master t "
-			+ "join department_master d on t.dept_id=d.dept_id order by t.team_id desc", nativeQuery = true)
+			+ "e.first_name as managerName, d.dept_name as departmentName from team_master t "
+			+ "join department_master d on t.dept_id=d.dept_id join employee_master e on t.manager_id=e.emp_id "
+			+ "order by t.team_id desc", nativeQuery = true)
 	Page<List<Map<String, Object>>> getAllTeam(Pageable pageable);
 }

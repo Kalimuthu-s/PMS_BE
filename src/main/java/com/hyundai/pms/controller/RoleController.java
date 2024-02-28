@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.RoleMaster;
 import com.hyundai.pms.service.RoleService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @RestController
 @RequestMapping("/role")
@@ -32,10 +33,14 @@ public class RoleController {
 		return new Response(1, "Success", role);
 	}
 
-	@GetMapping("/getAllRoles")
-	public Response getAllRoles() {
-		List<RoleMaster> role = roleService.getAllRoles();
-		return new Response(1, "Success", role);
+	@PostMapping("/getAllRoles")
+	public Response getAllRoles(@RequestBody PaginationWebModel paginationWebModel) {
+		return roleService.getAllRoles(paginationWebModel);
+	}
+	
+	@GetMapping("/getAllRole")
+	public Response getAllRole() {
+		return roleService.getAllRole();
 	}
 
 	@GetMapping("/getRoleById/{id}")

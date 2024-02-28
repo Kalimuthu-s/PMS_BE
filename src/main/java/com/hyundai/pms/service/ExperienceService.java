@@ -1,6 +1,7 @@
 package com.hyundai.pms.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.ExperienceMaster;
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.ExperienceRepository;
 import com.hyundai.pms.webModel.PaginationWebModel;
@@ -40,7 +42,8 @@ public class ExperienceService {
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 
-			var page = experienceRepository.findAll(pageable);
+			var page = experienceRepository.getAllExperiences(pageable, paginationWebModel.getSearchKey());
+//			var page = experienceRepository.findAll(pageable);
 
 			response = new HashMap<>();
 
@@ -55,12 +58,12 @@ public class ExperienceService {
 	}
 		
 		
-		public Optional<ExperienceMaster> getExperienceById(Long locationId) {
+		public Optional<ExperienceMaster> getExperienceById(int locationId) {
 	        return experienceRepository.findById(locationId);
 		}
 		
 		
-		public Response updateExperience(Long experienceId, ExperienceMaster updatedExperience) {
+		public Response updateExperience(int experienceId, ExperienceMaster updatedExperience) {
 	        if (experienceRepository.existsById(experienceId)) {
 	        	updatedExperience.setExperienceId(experienceId);
 	        	updatedExperience=  experienceRepository.save(updatedExperience);
@@ -74,7 +77,7 @@ public class ExperienceService {
 		}
 
 	  
-		public Response deleteExperience(Long experienceId) {
+		public Response deleteExperience(int experienceId) {
 			 if (experienceRepository.existsById(experienceId)) {
 				 experienceRepository.deleteById(experienceId);
 		        return new Response(1,"success",null);
@@ -83,4 +86,8 @@ public class ExperienceService {
 				 return new Response(2,"error",null);
 			 }
 		}
+		
+//		public List<ExperienceMaster> experienceFilters(FiltersDTO dto) {
+//			return experienceRepository.experienceFilters(dto.getInputValue());
+//		}
 }

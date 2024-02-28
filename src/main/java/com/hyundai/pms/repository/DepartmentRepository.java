@@ -33,13 +33,10 @@ public interface DepartmentRepository extends JpaRepository<DepartmentMaster, In
 	@Query("SELECT " +
 			"d.departmentId as departmentId, " +
 		       "d.departmentName as departmentName, " +
-		       "d.grade as grade, " +
-		       "e.emp_id as managerId, " +
-		       "e.first_name as managerName " +
-		       "FROM DepartmentMaster d INNER JOIN EmployeeMaster e with d.managerId=e.emp_id "
+		       "e.first_name as headOfDepartment " +
+		       "FROM DepartmentMaster d INNER JOIN EmployeeMaster e with d.headOfDepartment=e.emp_id "
 		       + "WHERE (d.departmentId LIKE %:searchKey% "+
 		       "OR d.departmentName LIKE %:searchKey% " +
-		       "OR d.grade LIKE %:searchKey% " +
 		       "OR e.first_name LIKE %:searchKey%) " +
 		       "ORDER BY d.departmentId")
 		Page<List<Map<String, Object>>> findAllDept(Pageable pageable, String searchKey);

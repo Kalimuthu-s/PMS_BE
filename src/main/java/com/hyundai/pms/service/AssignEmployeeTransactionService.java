@@ -45,7 +45,9 @@ public class AssignEmployeeTransactionService {
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 
-			var page = petr.getAllEmployeeTransaction(pageable);
+//			var page = petr.getAllEmployeeTransaction(pageable,paginationWebModel.getSearchKey());
+			var page = petr.getAllEmployeeTransactions(pageable,paginationWebModel.getSearchKey());
+
 			response = new HashMap<>();
 			response.put("count", page.getTotalElements());
 			response.put("content", page.getContent());

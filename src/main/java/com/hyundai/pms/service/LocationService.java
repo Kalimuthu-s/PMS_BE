@@ -1,6 +1,7 @@
 package com.hyundai.pms.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.LocationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.LocationRepository;
@@ -37,10 +39,10 @@ public class LocationService {
 			Map<String, Object> response = new HashMap<>();
 			try {
 				Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-				
+				System.err.println("===>"+paginationWebModel.getPageNo()+" "+ paginationWebModel.getPageSize());
 
-				var page = locationRepository.findAllLocation(pageable,paginationWebModel.getSearchKey());
-				
+			//	var page = locationRepository.findAllLocation(pageable,paginationWebModel.getSearchKey());
+				var page = locationRepository.findAllLocations(pageable,paginationWebModel.getSearchKey());
 				response.put("count", page.getTotalElements());
 				response.put("content", page.getContent());
 				
@@ -59,14 +61,14 @@ public class LocationService {
 		
 		
 	  
-		public Response updateLocation(Long locationId, LocationMaster updatedLocation) {
-	        if (locationRepository.existsById(locationId)) {
-	            updatedLocation.setLocationId(locationId);
+		public Response updateLocation(LocationMaster updatedLocation) {
+	        if (locationRepository.existsById(updatedLocation.getLocationId())) {
+	            updatedLocation.setLocationId(updatedLocation.getLocationId());
 	            updatedLocation=  locationRepository.save(updatedLocation);
 	        	logger.info("Experience updated successfully: {}", updatedLocation);
 	            return new Response(1,"success",updatedLocation);
 	        } else {
-	        	 logger.error("Experience with ID {} not found during update.", locationId);
+	        	 logger.error("Experience with ID {} not found during update.", updatedLocation.getLocationId());
 	            return new Response(2,"error",updatedLocation);
 	        }
 		}
@@ -81,4 +83,9 @@ public class LocationService {
 				 return new Response(2,"error",null);
 			 }
 		}
+		
+//		public List<LocationMaster> locationFilters(FiltersDTO dto) {
+//			System.err.println("===========> "+dto.getInputValue());
+//			return locationRepository.locationFilters(dto.getInputValue());
+//		}
 }

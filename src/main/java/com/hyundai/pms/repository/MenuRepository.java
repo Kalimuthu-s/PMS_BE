@@ -13,6 +13,9 @@ import com.hyundai.pms.entity.MenuMaster;
 
 @Repository
 public interface MenuRepository extends JpaRepository<MenuMaster, Integer>{
+	
+	@Query("SELECT m FROM MenuMaster m WHERE menuName LIKE %:searchKey% OR access LIKE %:searchKey% OR icon LIKE %:searchKey% OR mainMenu LIKE %:searchKey%")
+	Page<List<MenuMaster>> getAllMenu(Pageable pageable, String searchKey);
 
 
 }

@@ -27,7 +27,7 @@ public class DesignationServiceImpl implements DesignationService {
 		Map<String, Object> response = null;
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-			var page = designationrepository.findAll(pageable);
+			var page = designationrepository.getAllDesignation(pageable,paginationWebModel.getSearchKey());
 			
 			response = new HashMap<>();
 			

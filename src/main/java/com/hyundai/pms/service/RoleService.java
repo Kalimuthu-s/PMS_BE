@@ -1,16 +1,21 @@
 package com.hyundai.pms.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.RoleMaster;
 import com.hyundai.pms.repository.RoleRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 @Service
 public class RoleService {
 	private static final Logger logger = LoggerFactory.getLogger(ExperienceService.class);
@@ -25,9 +30,28 @@ public class RoleService {
 	         return new Response(1, "success", role);
 	    }
 	 
-	 public List<RoleMaster> getAllRoles() {
-	        return (List<RoleMaster>) roleRepository.findAll();
+	 public Response getAllRoles(PaginationWebModel paginationWebModel) {
+		 Map<String, Object> response = new HashMap<>();
+			try {
+				Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+				
+
+				var page = roleRepository.findAllRoles(pageable,paginationWebModel.getSearchKey());
+				
+				response.put("count", page.getTotalElements());
+				response.put("content", page.getContent());
+				
+		        return new Response(1, "success", response) ;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			 return new Response(-1, "failed", response);
 	 	}
+	 
+	 public Response getAllRole() {
+		 List<RoleMaster> list = roleRepository.findAll();
+		 return new Response(1, "Success", list);
+	 }
 
 	 public Optional<RoleMaster> getRoleById(Long roleId) {
 	        return roleRepository.findById(roleId);

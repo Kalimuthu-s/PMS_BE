@@ -3,6 +3,8 @@ package com.hyundai.pms.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,5 +25,10 @@ public interface ProjectRepository extends JpaRepository<ProjectMaster, Integer>
 	
 	@Query(value = "select * from project_master where project_name=?1",nativeQuery = true)
 	List<ProjectMaster> findExistingProject(String projectName);
+	
+//	@Query("SELECT p.projectId,p.customerName,p.projectName,e.firstName,p.startDate,p.endDate,p.status FROM ProjectMaster p INNER JOIN CustomerMaster c ON p.CustomerId=c.CustomerId "
+//			+ "INNER JOIN EmployeeMaster e ON p.ManagerName=e.emp_id WHERE p.ProjectName LIKE %:searchKey% "
+//			+ "OR p.startDate LIKE %:searchKey% OR p.endDate LIKE %:searchKey% OR p.status LIKE %:searchKey%")
+//	List<Map<String, Object>> getAllProjects(Pageable pageable, String searchKey);
 
 }

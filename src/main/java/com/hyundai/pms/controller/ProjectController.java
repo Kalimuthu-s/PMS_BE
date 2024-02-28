@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.entity.ProjectMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.ProjectService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @CrossOrigin
 @RequestMapping("/project")
@@ -32,6 +33,12 @@ public class ProjectController {
 		List<Map<String, Object>> list = ps.getAllProject();
 		return new Response(1, "Success", list);
 	}
+	
+//	@GetMapping("/getAllProjects")
+//	public Response  getAllProjects(@RequestBody PaginationWebModel paginationWebModel) {
+//		List<Map<String, Object>> list = ps.getAllProjects(paginationWebModel);
+//		return new Response(1, "Success", list);
+//	}
 	
 	@GetMapping("/getProjectById/{id}")
 	public Response getProjectById(@PathVariable int id) {

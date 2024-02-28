@@ -1,5 +1,6 @@
 package com.hyundai.pms.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.LocationMaster;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.LocationService;
@@ -43,9 +46,9 @@ public class LocationController {
 		return new Response(1, "Success", location);
 	}
 
-	@PutMapping("/updateLocation/{id}")
-	public Response updateLocation(@PathVariable Long id, @RequestBody LocationMaster updatedLocation) {
-		locationService.updateLocation(id, updatedLocation);
+	@PutMapping("/updateLocation")
+	public Response updateLocation(@RequestBody LocationMaster updatedLocation) {
+		locationService.updateLocation(updatedLocation);
 		return new Response(1, "Success", updatedLocation);
 	}
 
@@ -54,5 +57,13 @@ public class LocationController {
 		locationService.deleteLocation(id);
 		return new Response(1, "Success", id);
 	}
+	
+//	@PostMapping("/locationFilters")
+//	public Response locationFilters(@RequestBody FiltersDTO dto) {
+//		System.err.println("=========> "+dto.toString());
+//		List<LocationMaster> list = locationService.locationFilters(dto);
+//		
+//		return new Response(1, "Succcess", list);
+//	}
 
 }

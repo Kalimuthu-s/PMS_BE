@@ -19,7 +19,21 @@ public interface AssignEmployeeTransactionRepository extends JpaRepository<Assig
 			+ "t.assigned_start_date as assignedStartDate, t.assigned_end_date as assignedEndDate from "
 			+ "assign_employee_transaction t inner join project_master p on t.project_id = p.project_id "
 			+ "inner join employee_master e on t.employee_id = e.emp_id order by t.proj_emp_id desc", nativeQuery = true)
-	Page<Map<String, Object>> getAllEmployeeTransaction(Pageable pageable);
+	Page<Map<String, Object>> getAllEmployeeTransaction(Pageable pageable,String searchKey);
+
+	@Query(value = "select t.proj_emp_id as projectEmpId, concat(e.first_name,' ',e.last_name) as employeeName,"
+			+ " p.project_name as projectName, t.project_id as projectId, t.employee_id as employeeId, "
+			+ "t.assigned_start_date as assignedStartDate, t.assigned_end_date as assignedEndDate from "
+			+ "assign_employee_transaction t inner join project_master p on t.project_id = p.project_id "
+			+ "inner join employee_master e on t.employee_id = e.emp_id "+
+			"WHERE e.first_name LIKE %:searchKey%  " +
+            "OR e.last_name LIKE %:searchKey% " +
+            "OR p.project_name LIKE %:searchKey% " +
+            "OR t.assigned_start_date LIKE %:searchKey% " +
+            "OR t.assigned_end_date LIKE %:searchKey% " +
+			"order by t.proj_emp_id desc", nativeQuery = true)
+	Page<Map<String, Object>> getAllEmployeeTransactions(Pageable pageable,String searchKey);
+
 
 	@Query(value = "select t.proj_emp_id as projectEmpId, concat(e.first_name,' ',e.last_name) as employeeName,"
 			+ " p.project_name as projectName, "

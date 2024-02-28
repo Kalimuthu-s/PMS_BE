@@ -19,5 +19,4 @@ public interface CustomerRepository extends JpaRepository<CustomerMaster,Long> {
 	Page<List<CustomerMaster>> getAllCustomers(Pageable pageable,String searchKey);
 
 
-
 }

@@ -1,11 +1,14 @@
 package com.hyundai.pms.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.pms.entity.AssignEmployeeTransaction;
@@ -15,6 +18,7 @@ import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.AssignEmployeeTransactionRepository;
 import com.hyundai.pms.repository.AssignManagerTransactionRepository;
 import com.hyundai.pms.repository.ProjectRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
 public class ProjectService {
@@ -28,6 +32,24 @@ public class ProjectService {
 	public List<Map<String, Object>> getAllProject() {
 		return pr.findAllProject();
 	}
+	
+//	public Response getAllProjects(PaginationWebModel paginationWebModel) {
+//		Map<String, Object> response = null;
+//		try {
+//			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+//			var page = pr.getAllProjects(pageable,paginationWebModel.getSearchKey());
+//			
+//			response = new HashMap<>();
+//			
+//			response.put("count", page.getTotalElements());
+//			response.put("content", page.getContent());
+//			
+//			return new Response(1, "success", response);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new Response(-1, "failed", "");
+//	}
 
 	public Optional<ProjectMaster> getProjectById(int id) {
 		return pr.findById(id);

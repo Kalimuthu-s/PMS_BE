@@ -71,8 +71,8 @@ public class EmployeeService {
 	@Autowired
 	private ExperienceRepository exprepo;
 	
-	@Autowired
-    private JavaMailSender mailSender;
+//	@Autowired
+//    private JavaMailSender mailSender;
 	
 	@Autowired
 	private UserRepository userRepo;
@@ -130,20 +130,20 @@ public class EmployeeService {
 //		}
 //	}
 //	
-	public void emailUserDetails(UserMaster userMaster) throws AddressException, MessagingException {
-		System.err.println("==========================> after email call"+userMaster.toString());
-			    MimeMessage message = mailSender.createMimeMessage();
-			    message.setFrom(new InternetAddress("praveenkannan849@gmail.com"));
-			    message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse("sathish.datchanamoorthi@hyundai-autoever.com"));
-			    message.setSubject("Test email from PMS");
-
-			    String htmlContent = "<h1>UserNmae : "+userMaster.getUserId()
-			    		+ "Password : </h1>" + userMaster.getPassword() +
-			            "<p>Please change the default password.</p>";
-			    message.setContent(htmlContent, "text/html; charset=utf-8");
-
-			    mailSender.send(message);
-		}
+//	public void emailUserDetails(UserMaster userMaster) throws AddressException, MessagingException {
+//		System.err.println("==========================> after email call"+userMaster.toString());
+//			    MimeMessage message = mailSender.createMimeMessage();
+//			    message.setFrom(new InternetAddress("praveenkannan849@gmail.com"));
+//			    message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse("sathish.datchanamoorthi@hyundai-autoever.com"));
+//			    message.setSubject("Test email from PMS");
+//
+//			    String htmlContent = "<h1>UserNmae : "+userMaster.getUserId()
+//			    		+ "Password : </h1>" + userMaster.getPassword() +
+//			            "<p>Please change the default password.</p>";
+//			    message.setContent(htmlContent, "text/html; charset=utf-8");
+//
+//			    mailSender.send(message);
+//		}
 		
 	
 	public PmsResponseMessage saveData(EmployeeDTO employeedto) {

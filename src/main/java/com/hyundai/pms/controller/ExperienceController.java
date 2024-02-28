@@ -1,5 +1,6 @@
 package com.hyundai.pms.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.ExperienceMaster;
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.ExperienceService;
 import com.hyundai.pms.webModel.PaginationWebModel;
@@ -38,21 +41,27 @@ public class ExperienceController {
 	    }
 
 	@GetMapping("/getExperienceById/{id}")
-	public Response getExperienceById(@PathVariable Long id) {
+	public Response getExperienceById(@PathVariable int id) {
 		Optional<ExperienceMaster> exp = experienceService.getExperienceById(id);
 		return new Response(1, "Success", exp);
 	}
 
 	@PutMapping("/updateExperience/{id}")
-	public Response updateExperience(@PathVariable Long id, @RequestBody ExperienceMaster updatedExperience) {
+	public Response updateExperience(@PathVariable int id, @RequestBody ExperienceMaster updatedExperience) {
 		experienceService.updateExperience(id, updatedExperience);
 		return new Response(1, "Success", updatedExperience);
 	}
 
 	@DeleteMapping("/deleteExperience/{id}")
-	public Response deleteExperience(@PathVariable Long id) {
+	public Response deleteExperience(@PathVariable int id) {
 		experienceService.deleteExperience(id);
 		return new Response(1, "Success", id);
 
 	}
+	
+//	@PostMapping("/experienceFilters")
+//	public Response experienceFilters(@RequestBody FiltersDTO dto) {
+//		List<ExperienceMaster> list = experienceService.experienceFilters(dto);
+//		return new Response(1, "Success", list);
+//	}
 }

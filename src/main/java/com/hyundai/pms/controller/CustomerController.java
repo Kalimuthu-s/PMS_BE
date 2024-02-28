@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.CustomerMaster;
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.CustomerService;
 import com.hyundai.pms.webModel.PaginationWebModel;
@@ -51,7 +52,7 @@ public class CustomerController {
 		return new Response(1, "Success", cust);
 	}
 
-	@PutMapping("/updateCustomer/{id}")
+	@PutMapping("/updateCustomer")
 	public Response updateCustomer(@RequestBody CustomerMaster updatedCustomer) {
 		customerservice.updateCustomer(updatedCustomer);
 		return new Response(1, "Success", updatedCustomer);

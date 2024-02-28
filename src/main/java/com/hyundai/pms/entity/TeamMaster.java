@@ -29,9 +29,9 @@ public class TeamMaster {
 	private String teamName;
 
 	@Column(name = "dept_id")
-	private int deptId;
+	private int departmentName;
 
-	@Column(name = "team_grade")
-	private int teamGrade;
+	@Column(name = "manager_id")
+	private int managerName;
 
 }

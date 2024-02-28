@@ -28,7 +28,7 @@ public class MenuService {
 
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 
-			var page = mr.findAll(pageable);
+			var page = mr.getAllMenu(pageable,paginationWebModel.getSearchKey());
 
 			response = new HashMap<>();
 			response.put("count", page.getTotalElements());

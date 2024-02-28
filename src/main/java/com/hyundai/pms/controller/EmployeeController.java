@@ -59,20 +59,20 @@ public class EmployeeController {
 		return service.saveData(employeedto);
 	}
 
-	@PostMapping("/mailSender")
-	public void mailSender(@RequestBody(required = false) UserMaster userMaster)throws AddressException, MessagingException {
-	    try {
-	      
-	        if (userMaster != null) {
-	            service.emailUserDetails(userMaster);
-	        } else {
-	            throw new IllegalArgumentException("Employee details cannot be null");
-	        }
-	    } catch (MessagingException e) {
-	        e.printStackTrace();
-	        throw new RuntimeException("Failed to send email: " + e.getMessage());
-	    }
-	}
+//	@PostMapping("/mailSender")
+//	public void mailSender(@RequestBody(required = false) UserMaster userMaster)throws AddressException, MessagingException {
+//	    try {
+//	      
+//	        if (userMaster != null) {
+//	            service.emailUserDetails(userMaster);
+//	        } else {
+//	            throw new IllegalArgumentException("Employee details cannot be null");
+//	        }
+//	    } catch (MessagingException e) {
+//	        e.printStackTrace();
+//	        throw new RuntimeException("Failed to send email: " + e.getMessage());
+//	    }
+//	}
 
 
 	@GetMapping("/allmanagers")

@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.hyundai.pms.entity.FiltersDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.SkillMaster;
 import com.hyundai.pms.repository.SkillRepository;
@@ -32,7 +33,7 @@ public class SkillServiceImpl implements SkillService{
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
 
-			var page = skillrepository.findAll(pageable);
+			var page = skillrepository.findAllSkills(pageable,paginationWebModel.getSearchKey());
 
 			response = new HashMap<>();
 
@@ -96,6 +97,6 @@ public class SkillServiceImpl implements SkillService{
 	         return new Response(-1, "Failed to delete Skill: " ,"");
 	     }
 	 }
-
+	 
 
 }
