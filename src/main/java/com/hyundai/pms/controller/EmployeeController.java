@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.EmployeeDTO;
@@ -30,11 +31,27 @@ import com.hyundai.pms.webModel.PaginationWebModel;
 public class EmployeeController {
 	@Autowired
 	private EmployeeService service;
-
+	
+	
 	@GetMapping("/getalllist")
 	public PmsResponseMessage getAll() {
 		return service.getAll();
 	}
+	
+	@PostMapping("/getAllEmployee")
+	public Response getAllEmployee(@RequestBody PaginationWebModel paginationWebModel) {
+		return service.getAllEmployee(paginationWebModel);
+	}
+	
+
+
+//	@PostMapping("/getalllist")
+//	public Response getAll(@RequestBody PaginationWebModel paginationWebModel) {
+//	        System.err.println("?????????? " + paginationWebModel.getPageNo() + " " + paginationWebModel.getPageSize());
+//	        return service.getAll(paginationWebModel);
+//	    
+//	}
+
 
 	@GetMapping("/getallemployee")
 	public PmsResponseMessage getallemployee() {
@@ -140,6 +157,11 @@ public class EmployeeController {
 		return new Response(1, "Success", emp);
 	}
 	
+	
+	@GetMapping("/managers")
+    public List<Map<String, Object>> getManagers() {
+        return service.getManagers();
+    }
 	
 	// @Autowired
 	// private ExcelHelper excelhelper;

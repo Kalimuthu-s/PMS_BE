@@ -33,6 +33,10 @@ public class ProjectService {
 		return pr.findAllProject();
 	}
 	
+	public List<ProjectMaster> getAllProjects() {
+		return pr.findAll();
+	}
+	
 //	public Response getAllProjects(PaginationWebModel paginationWebModel) {
 //		Map<String, Object> response = null;
 //		try {

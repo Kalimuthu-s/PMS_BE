@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.hyundai.pms.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +20,9 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
+	
+	@Autowired
+	private UserRepository ur;
 	
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
@@ -32,6 +38,7 @@ public class JwtService {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+        System.err.println("============================> "+claims.getSubject().toString());
         return claimsResolver.apply(claims);
     }
 
@@ -49,8 +56,8 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//        final String username = extractUsername(token);
+        return (!isTokenExpired(token) && token.equals(ur.findIdByName(userDetails.getUsername()).get().getToken()));
     }
 
 
@@ -67,6 +74,7 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+   
     }
 
     private Key getSignKey() {

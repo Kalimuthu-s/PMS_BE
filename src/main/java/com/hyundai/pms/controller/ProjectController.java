@@ -34,6 +34,12 @@ public class ProjectController {
 		return new Response(1, "Success", list);
 	}
 	
+	@GetMapping("/getAllProjects")
+	public Response  getAllProjects() {
+		List<ProjectMaster> list = ps.getAllProjects();
+		return new Response(1, "Success", list);
+	}
+	
 //	@GetMapping("/getAllProjects")
 //	public Response  getAllProjects(@RequestBody PaginationWebModel paginationWebModel) {
 //		List<Map<String, Object>> list = ps.getAllProjects(paginationWebModel);

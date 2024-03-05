@@ -53,9 +53,6 @@ public class EmployeeMaster {
 	@Column(name = "dept_id")
 	private String department;
 	
-	@Column(name = "manager_id")
-	private String manager;
-	
 	@Column(name = "location_id")
 	private String location;
 	

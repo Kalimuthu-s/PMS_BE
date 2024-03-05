@@ -39,6 +39,11 @@ public class LocationController {
 	    public Response getAllLocations(@RequestBody PaginationWebModel paginationWebModel) {
 	        return locationService.getAllLocations(paginationWebModel);
 	    }
+	 
+	 @GetMapping("/getAllLocation")
+	    public Response getAllLocation() {
+	        return locationService.getAllLocation();
+	    }
 
 	@GetMapping("/getLocationById/{id}")
 	public Response getLocationById(@PathVariable Long id) {

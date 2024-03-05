@@ -4,18 +4,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mail.javamail.JavaMailSender;
+//import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,7 @@ import com.hyundai.pms.entity.EmployeeMaster;
 import com.hyundai.pms.entity.ExperienceMaster;
 import com.hyundai.pms.entity.LocationMaster;
 import com.hyundai.pms.entity.PmsResponseMessage;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.SkillGetDTO;
 import com.hyundai.pms.entity.SkillTransactionMaster;
 import com.hyundai.pms.entity.TeamMaster;
@@ -40,6 +44,7 @@ import com.hyundai.pms.repository.LocationRepository;
 import com.hyundai.pms.repository.SkillTransactionRepository;
 import com.hyundai.pms.repository.TeamRepository;
 import com.hyundai.pms.repository.UserRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Service
@@ -85,17 +90,75 @@ public class EmployeeService {
 //	public Employeemasterservice(HikariDataSource hikariDataSource) {
 //		this.hikariDataSource = hikariDataSource;
 //	}
-
-
+	
+	
 	public PmsResponseMessage getAll() {
 		try {
-			List<Map<String, Object>> emps = employeerepo.findAllEmployees();
+			List<Map<String, Object>> emps = employeerepo.findAllEmployees(null);
 			return new PmsResponseMessage(1, "Success", emps, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new PmsResponseMessage(-1, "Internal Server Error", null, false);
 		}
 	}
+	
+	public Response getAllEmployee(PaginationWebModel paginationWebModel) {
+		
+		Map<String, Object> response = null;
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+			var page = employeerepo.getAllEmployee(pageable,paginationWebModel.getSearchKey());
+			
+			response = new HashMap<>();
+			
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			
+			return new Response(1, "sucess", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
+	}
+	
+	
+//	public Response getAll(PaginationWebModel paginationWebModel) {
+//		Map<String, Object> response = null;
+//		try {
+//			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+//			var page = employeerepo.findAllEmployees(pageable,paginationWebModel.getSearchKey());
+//			
+//			response = new HashMap<>();
+//			
+//			response.put("count", page.getTotalElements());
+//			response.put("content", page.getContent());
+//			
+//			return new Response(1, "sucess", response);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new Response(-1, "failed", "");
+//	}
+
+
+//	public Response getAll(PaginationWebModel paginationWebModel) {
+//	    Map<String, Object> responseData = new HashMap<>();
+//	    try {
+//	        Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+//	        System.err.println("===> PageNo=" + paginationWebModel.getPageNo() + ", PageSize=" + paginationWebModel.getPageSize());
+//	        
+//	        Page<EmployeeMaster> page = employeerepo.findAllEmployees(pageable, paginationWebModel.getSearchKey());
+//	        
+//	        responseData.put("count", page.getTotalElements());
+//	        responseData.put("content", page.getContent());
+//	        
+//	        return new Response(1, "Success", responseData);
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	        return new Response(-1, "Internal Server Error", null);
+//	    }
+//	}
+
 	
 	public PmsResponseMessage getallemployee() {
 		try {
@@ -175,7 +238,6 @@ public class EmployeeService {
 		emp.setHire_date(employeedto.getHire_date());
 		emp.setDesignation(employeedto.getDesignation());
 		emp.setDepartment(employeedto.getDepartment());
-		emp.setManager(employeedto.getManager());
 		emp.setLocation(employeedto.getLocation());
 		emp.setPhoneNumber(employeedto.getPhoneNumber());
 		emp.setExperience(employeedto.getExperienceId());
@@ -280,7 +342,6 @@ public class EmployeeService {
             employeeDTO.setPhoneNumber((String) employeeData.get("phoneNumber").toString());
             employeeDTO.setDesignation(employeeData.get("designation").toString());
             employeeDTO.setDepartment(employeeData.get("department").toString());
-            employeeDTO.setManager(employeeData.get("manager").toString());
             employeeDTO.setLocation(employeeData.get("location").toString());
             employeeDTO.setTeam(employeeData.get("team").toString());
             employeeDTO.setExperienceId(employeeData.get("experienceId").toString());
@@ -316,7 +377,6 @@ public class EmployeeService {
 				emp.setHire_date(employeedto.getHire_date());
 				emp.setDesignation(employeedto.getDesignation());
 				emp.setDepartment(employeedto.getDepartment());
-				emp.setManager(employeedto.getManager());
 				emp.setLocation(employeedto.getLocation());
 				emp.setPhoneNumber(employeedto.getPhoneNumber());
 				emp.setExperience(employeedto.getExperienceId());
@@ -479,6 +539,14 @@ public class EmployeeService {
 		}
 		return null;
 	}
+
+
+	 public List<Map<String, Object>> getManagers() {
+	        return employeerepo.findManagers();
+	    }
+
+
+
 
 	// Excell upload insert into database
 

@@ -28,7 +28,6 @@ public class SecurityConfig {
 	private JwtAuthFilter authFilter;
 
 	@Bean
-	// authentication
 	public UserDetailsService userDetailsService() {
 //        UserDetails admin = User.withUsername("Basant")
 //                .password(encoder.encode("Pwd1"))
@@ -45,17 +44,15 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.cors().and().csrf(csrf -> csrf.disable())
-				.authorizeRequests().anyRequest().permitAll()
-//				.authorizeHttpRequests().antMatchers("/signin","signup").permitAll().and()
-//				.authorizeHttpRequests().antMatchers("/getAllTeam","getAllTeam","/addTeam","/updateTeam","/deleteTeam").hasAuthority("1")
-//				.anyRequest().authenticated()
+				.authorizeHttpRequests().antMatchers("/signin","/signup","/user/logout","/menuTransaction/getDynamicMenuByRole/{roleId}").permitAll().and()
+				.authorizeHttpRequests().antMatchers("/location/**","/designation/**").hasAuthority("1").and()
+				.authorizeHttpRequests().antMatchers("/team/**").hasAuthority("2")
+				.anyRequest().authenticated()
 				.and()
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
-	
-	
 
 	@Bean
 	PasswordEncoder passwordEncoder() {

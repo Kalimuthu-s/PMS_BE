@@ -3,10 +3,13 @@ package com.hyundai.pms.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import com.hyundai.pms.entity.Consolidate;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.MonthlyEntriesRepository;
 import com.hyundai.pms.repository.OverallUtilizationRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
 public class OverallUtilizationService {
@@ -114,10 +118,25 @@ public class OverallUtilizationService {
 		}
 	}
 	
-	public Response getAllConsolidated(String year) {
+//	public Response getAllConsolidated(String year) {
+//		try {
+//			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidated(year);
+//			return new Response(1, "Consolidated Data Getting Successfully", monthlyData);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new Response(2, "Error getting the data", null);
+//		}
+//	}
+	
+	public Response getAllConsolidatedData(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = new HashMap<>();
 		try {
-			List<Map<String, Object>> monthlyData = monthlyRepo.getAllConsolidated(year);
-			return new Response(1, "Consolidated Data Getting Successfully", monthlyData);
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = monthlyRepo.getAllConsolidatedData(pageable);
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			return new Response(1, "Consolidated Data Getting Successfully", response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Response(2, "Error getting the data", null);

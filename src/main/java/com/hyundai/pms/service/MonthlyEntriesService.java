@@ -5,12 +5,15 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import com.hyundai.pms.entity.MonthlyEntries;
 import com.hyundai.pms.entity.MonthlyEntryDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.MonthlyEntriesRepository;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @Service
 public class MonthlyEntriesService {
@@ -35,6 +39,24 @@ public class MonthlyEntriesService {
 	public Response getAllMonthlyEntries() {
 		List<Map<String, Object>> list = monthlyEntriesRepository.getAllMonthlyEntries();
 		return new Response(1, "Success", list);
+	}
+	
+	public Response getAllMonthlyEntry(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+			var page = monthlyEntriesRepository.getAllMonthlyEntry(pageable);
+			
+			response = new HashMap<>();
+			
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			
+			return new Response(1, "sucess", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
 	}
 
 	public Optional<MonthlyEntries> getMonthlyEntryById(int id) {
@@ -1062,6 +1084,21 @@ public class MonthlyEntriesService {
 		}
 	}
 	
+	public Response getAllConsolidatedData(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = monthlyEntriesRepository.getAllConsolidatedData(pageable);
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			return new Response(1, "Consolidated Data Getting Successfully", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Response(2, "Error getting the data", null);
+		}
+	}
+	
 //	public Response monthlyEntriesFilters(MonthlyEntryDTO dto) {
 //
 //		try {
@@ -1178,10 +1215,21 @@ public class MonthlyEntriesService {
 		return new Response(1, "Success", list);
 	}
 	
-	public Response getAllProjectUtilization() {
-		List<Map<String, Object>> list = monthlyEntriesRepository.getAllProjectUtilization();
-		return new Response(1, "Success", list);
+	public Response getAllProjectUtilization(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = new HashMap<>();
+			try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+			var page = monthlyEntriesRepository.getAllProjectUtilization(pageable);
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+			return new Response(1, "Consolidated Data Getting Successfully", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Response(2, "Error getting the data", null);
+		}
 	}
+	
+	
 	
 	}
 

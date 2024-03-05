@@ -19,6 +19,7 @@ import com.hyundai.pms.entity.MonthlyEntries;
 import com.hyundai.pms.entity.MonthlyEntryDTO;
 import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.MonthlyEntriesService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @RestController
 @RequestMapping("/monthlyEntries")
@@ -36,6 +37,11 @@ public class MonthlyEntriesController {
 	@GetMapping("/getAllMonthlyEntries")
 	public Response getAllMonthlyEntries() {
 		return monthlyEntriesService.getAllMonthlyEntries();
+	}
+	
+	@PostMapping("/getAllMonthlyEntry")
+	public Response getAllMonthlyEntry(@RequestBody PaginationWebModel paginationWebModel) {
+		return monthlyEntriesService.getAllMonthlyEntry(paginationWebModel);
 	}
 
 	@GetMapping("/getMonthlyEntryById/{id}")
@@ -78,11 +84,14 @@ public class MonthlyEntriesController {
 		return monthlyEntriesService.projectUtilizationFilter(dto);
 	}
 	
-	@GetMapping("/getAllProjectUtilization")
-	public Response getAllProjectUtilization() {
-		return monthlyEntriesService.getAllProjectUtilization();
+	@PostMapping("/getAllProjectUtilization")
+	public Response getAllProjectUtilization(@RequestBody PaginationWebModel paginationWebModel) {
+		return monthlyEntriesService.getAllProjectUtilization(paginationWebModel);
 	}
 
-
+	@PostMapping("/getAllConsolidatedData")
+	public Response getAllConsolidatedData(@RequestBody PaginationWebModel paginationWebModel) {
+		return monthlyEntriesService.getAllConsolidatedData(paginationWebModel);
+	}
 
 }

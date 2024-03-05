@@ -26,7 +26,7 @@ public class AssignManagerTransactionService {
 		Map<String, Object> response = null;
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-			var page =pr.getAllProjectManagerTransaction(pageable);
+			var page =pr.getAllProjectManagerTransaction(pageable,paginationWebModel.getSearchKey());
 			response = new HashMap<>();
 
 			response.put("count", page.getTotalElements());

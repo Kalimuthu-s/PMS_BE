@@ -53,6 +53,11 @@ public class LocationService {
 			 return new Response(-1, "failed", response);
 		}
 		
+		public Response getAllLocation() {
+			List<LocationMaster> list = locationRepository.findAll();
+			return new Response(1, "Success", list);
+		}
+		
 		
 	 
 		public Optional<LocationMaster> getLocationById(Long locationId) {

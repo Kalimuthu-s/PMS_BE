@@ -25,7 +25,7 @@ public class TeamService {
 		Map<String, Object> response = null;
 		try {
 			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
-			var page = tr.getAllTeam(pageable);
+			var page = tr.getAllTeam(pageable,paginationWebModel.getSearchKey());
 			
 			response = new HashMap<>();
 			

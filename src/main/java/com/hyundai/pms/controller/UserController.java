@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.pms.config.UserInfoUserDetailsService;
 import com.hyundai.pms.entity.AuthRequest;
 import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.entity.TokenDTO;
 import com.hyundai.pms.entity.UserDTO;
 import com.hyundai.pms.entity.UserMaster;
 import com.hyundai.pms.entity.UserResponse;
@@ -62,11 +63,16 @@ public class UserController {
 			data.put("token", token);
 			data.put("roleId", userDetails.getAuthorities().toArray()[0].toString());
 			data.put("userId", authRequest.getUsername());
+			Optional<UserMaster> userSave = ur.findIdByName(userDetails.getUsername());
+			UserMaster user = userSave.get();
+			userSave.get().setToken(token);
+			ur.save(user);
 			return new UserResponse(1,"Login Success",data,true);
 		} else {
 			return new UserResponse(2,"Login Failed",null,false);
 		}
 	}
+
 
 	@PostMapping("/signup")
 	public UserResponse signup(@RequestBody UserMaster user) {
@@ -109,9 +115,14 @@ public class UserController {
 		return new UserResponse(1,"Password Changed",user,true);
 	}
 	
-//	@GetMapping("/user/logout")
-//	public Response logout() {
-//		return new Response(1, "Success", null);
-//	}
+	@PostMapping("/user/logout")
+	public Response logout(@RequestBody TokenDTO token) {
+		String username = jwtService.extractUsername(token.getToken());
+		Optional<UserMaster> userData = ur.findIdByName(username);
+		UserMaster user = userData.get();
+		user.setToken(null);
+		ur.save(user);
+		return new Response(1,"Success", user);
+	}
 
 }

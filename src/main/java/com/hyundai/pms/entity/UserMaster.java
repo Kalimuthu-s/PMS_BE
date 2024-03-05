@@ -48,5 +48,7 @@ public class UserMaster {
 	private String email;
 	@Column(name = "status")
 	private boolean status;
+	@Column(name = "token")
+	private String token;
 
 }

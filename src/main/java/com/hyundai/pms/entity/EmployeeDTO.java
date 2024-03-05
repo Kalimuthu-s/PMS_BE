@@ -38,8 +38,6 @@ public class EmployeeDTO {
 
 	private String department;
 	
-	private String manager;
-	
 	private String location;
 	
 	private String team;
