@@ -1,17 +1,22 @@
 package com.hyundai.pms.serviceimpl;
 
-import org.springframework.data.domain.Pageable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.hyundai.pms.entity.Department;
+import com.hyundai.pms.entity.DepartmentMaster;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.repository.DepartmentRepository;
-import com.hyundai.pms.response.Response;
 import com.hyundai.pms.service.DepartmentService;
+import com.hyundai.pms.webModel.PaginationWebModel;
+
+
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
@@ -21,74 +26,76 @@ public class DepartmentServiceImpl implements DepartmentService{
 	
 
 	@Override
-	public List<Department> getAll() {
-		return departmentrepository.findAll();
+	public Response getAll(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+			
+			var page = departmentrepository.findAllDept(pageable,paginationWebModel.getSearchKey());
+
+			response = new HashMap<>();
+
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+
+			return new Response(1, "success", response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new Response(-1, "failed", "");
 	}
 	
 	@Override
-	public Page<Department> getAll(Pageable pageable) {
-	    return departmentrepository.findAll(pageable);
+	public List<DepartmentMaster> getAllDepartments() {
+		return departmentrepository.findAll();
 	}
 
 	@Override
-	public Optional<Department> getById(int depId) {
+	public Optional<DepartmentMaster> getById(int depId) {
 		return departmentrepository.findById(depId);
 	}
 
-	@Override
-	public Response addDepartment(Department depbody) {
-	    if (depbody==null) {
-	        return new Response(-1, "failed", "Department object cannot be null");
-	    }
-	    if (depbody.getDepartmentName()==null || depbody.getDepartmentName ().isEmpty()||depbody.getDepartmentName()=="") {
-	        return new Response(-1, "failed", "Department name cannot be null or empty");
-	    }
-
-	    try {
-	        Department savedDepartment = departmentrepository.save(depbody);
-	        return new Response(1, "success", savedDepartment);
-	    } catch (Exception e) {
-	        e.printStackTrace();
+	 @Override
+	    public Response adddepartment(DepartmentMaster depbody) {
+	        try {
+	        	DepartmentMaster savedSkill = departmentrepository.save(depbody);
+	            return new Response(1, "success", savedSkill);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	        return new Response(-1, "failed","");
 	    }
 
-	    return new Response(-1, "failed", "Failed to save department");
-	}
-
-	@Override
-	public Response updatedepartment(Department depbody) {
-	    if (depbody==null) {
-	        return new Response(-1, "failed", "Department object cannot be null");
+	 @Override
+	    public Response updatedepartment(DepartmentMaster depbody) {
+	        try {
+	        	DepartmentMaster savedSkill = departmentrepository.save(depbody);
+	            return new Response(1, "success", savedSkill);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	        return new Response(-1, "failed","");
 	    }
-	    if (depbody.getDepartmentName()==null || depbody.getDepartmentName().isEmpty()||depbody.getDepartmentName().equals("")) {
-	        return new Response(-1, "failed", "Department name cannot be null or empty");
-	    }
-
-	    try {
-	        Department updatedDepartment = departmentrepository.save(depbody);
-	        return new Response(1, "success", updatedDepartment);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
-	    return new Response(-1, "failed", "Failed to update department");
-	}
 	
 	
 	@Override
 	 public Response deletedepartment(int depId) {
 	     try {
-	         Optional<Department> optionalDepartment = departmentrepository.findById(depId);
+	         Optional<DepartmentMaster> optionalSkill = departmentrepository.findById(depId);
 
-	         if (optionalDepartment.isPresent()) {
-	             Department deletedDepartment = optionalDepartment.get();
+	         if (optionalSkill.isPresent()) {
+	             DepartmentMaster deletedSkill = optionalSkill.get();
 	             departmentrepository.deleteById(depId);
-	             return new Response(1, "Success", deletedDepartment);
+	             return new Response(1, "Success", deletedSkill);
 	         } else {
-	             return new Response(-1, "Department not found","");
+	             return new Response(-1, "Skill not found","");
 	         }
 	     } catch (Exception e) {
 	         e.printStackTrace();
-	         return new Response(-1, "Failed to delete Department: " ,"");
+	         return new Response(-1, "Failed to delete Skill: " ,"");
 	     }
 	 }
 

@@ -9,8 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
-@Table(name="pendingrequest")
+@Table(name="pending_request")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class PendingRequest {
 	
 	@Id
@@ -29,50 +40,5 @@ public class PendingRequest {
 	
 	@Column(name="status")
 	public String status;
-
-	public int getPendingRequestId() {
-		return pendingRequestId;
-	}
-
-	public void setPendingRequestId(int pendingRequestId) {
-		this.pendingRequestId = pendingRequestId;
-	}
-
-	public int getEmpMonthId() {
-		return empMonthId;
-	}
-
-	public void setEmpMonthId(int empMonthId) {
-		this.empMonthId = empMonthId;
-	}
-
-	public int getManagerId() {
-		return managerId;
-	}
-
-	public void setManagerId(int managerId) {
-		this.managerId = managerId;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	
-	
-	
-	
 
 }

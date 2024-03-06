@@ -1,26 +1,21 @@
 package com.hyundai.pms.service;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import com.hyundai.pms.entity.Designation;
-import com.hyundai.pms.response.Response;
+import com.hyundai.pms.entity.DesignationMaster;
+import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 public interface DesignationService {
-	
-    public List<Designation> getAll();
-	
-    public Optional<Designation> getById(int desgId);
-	
-    Response addDesignation(Designation desgbody);
-	
-	Response updatedesignation(Designation desgbody);
+
+	public Response getAll(PaginationWebModel paginationWebModel);
+
+	public Optional<DesignationMaster> getById(int desgId);
+
+	Response adddesignation(DesignationMaster desgbody);
+
+	Response updatedesignation(DesignationMaster desgbody);
 
 	Response deletedesignation(int desgId);
-	
-	public Page<Designation> getAll(Pageable pageable);
 
 }

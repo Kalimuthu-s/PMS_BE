@@ -19,16 +19,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamMaster {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "team_id")
 	private int teamId;
+
 	@Column(name = "team_name")
 	private String teamName;
+
 	@Column(name = "dept_id")
-	private int deptId;
-	@Column(name = "team_grade")
-	private int teamGrade;
+	private int departmentName;
+
+	@Column(name = "manager_id")
+	private int managerName;
 
 }

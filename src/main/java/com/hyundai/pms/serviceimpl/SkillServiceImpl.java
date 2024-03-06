@@ -1,17 +1,23 @@
 package com.hyundai.pms.serviceimpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.hyundai.pms.entity.Skill;
+import com.hyundai.pms.entity.FiltersDTO;
+import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.entity.SkillMaster;
 import com.hyundai.pms.repository.SkillRepository;
-import com.hyundai.pms.response.Response;
 import com.hyundai.pms.service.SkillService;
+import com.hyundai.pms.webModel.PaginationWebModel;
+
+
 
 @Service
 public class SkillServiceImpl implements SkillService{
@@ -21,79 +27,66 @@ public class SkillServiceImpl implements SkillService{
 	
 
 	@Override
-	public List<Skill> getAll() {
-		return skillrepository.findAll();
+	public Response getAll(PaginationWebModel paginationWebModel) {
+		Map<String, Object> response = null;
+
+		try {
+			Pageable pageable = PageRequest.of(paginationWebModel.getPageNo(), paginationWebModel.getPageSize());
+
+			var page = skillrepository.findAllSkills(pageable,paginationWebModel.getSearchKey());
+
+			response = new HashMap<>();
+
+			response.put("count", page.getTotalElements());
+			response.put("content", page.getContent());
+
+			return new Response(1, "success", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Response(-1, "failed", "");
 	}
 	
 	@Override
-	public Page<Skill> getAll(Pageable pageable) {
-	    return skillrepository.findAll(pageable);
+	public Response getAllSkills() {
+		List<SkillMaster> list= skillrepository.findAll();
+		return new Response(1, "Success", list);
 	}
 
 	@Override
-	public Optional<Skill> getById(int skillId) {
+	public Optional<SkillMaster> getById(int skillId) {
 		return skillrepository.findById(skillId);
 	}
 
-	 
 	 @Override
-		public Response addskill(Skill skillBody) {
-		    if (skillBody==null) {
-		        return new Response(-1, "failed", "Skill object cannot be null");
-		    }
-		    if (skillBody.getSkillName()==null || skillBody.getSkillName().isEmpty()||skillBody.getSkillName()=="") {
-		        return new Response(-1, "failed", "Skill name cannot be null or empty");
-		    }
-		    if (skillBody.getSkillCategory()==null || skillBody.getSkillCategory().isEmpty()||skillBody.getSkillCategory()=="") {
-		        return new Response(-1, "failed", "SkillCategory cannot be null or empty");
-		    }
-		    if (skillBody.getProficiencyLevel()==null || skillBody.getProficiencyLevel().isEmpty()||skillBody.getProficiencyLevel()=="") {
-		        return new Response(-1, "failed", "ProficiencyLevel cannot be null or empty");
-		    }
+	    public Response addskill(SkillMaster skillBody) {
+	        try {
+	        	SkillMaster savedSkill = skillrepository.save(skillBody);
+	            return new Response(1, "success", savedSkill);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	        return new Response(-1, "failed","");
+	    }
 
-		    try {
-		    	Skill savedSkill = skillrepository.save(skillBody);
-		        return new Response(1, "success", savedSkill);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-
-		    return new Response(-1, "failed", "Failed to save Skill");
-		}
-
-	 
 	 @Override
-		public Response updateskill(Skill skillBody) {
-		    if (skillBody==null) {
-		        return new Response(-1, "failed", "Skill object cannot be null");
-		    }
-		    if (skillBody.getSkillName()==null || skillBody.getSkillName().isEmpty()||skillBody.getSkillName()=="") {
-		        return new Response(-1, "failed", "Skill name cannot be null or empty");
-		    }
-		    if (skillBody.getSkillCategory()==null || skillBody.getSkillCategory().isEmpty()||skillBody.getSkillCategory()=="") {
-		        return new Response(-1, "failed", "SkillCategory cannot be null or empty");
-		    }
-		    if (skillBody.getProficiencyLevel()==null || skillBody.getProficiencyLevel().isEmpty()||skillBody.getProficiencyLevel()=="") {
-		        return new Response(-1, "failed", "ProficiencyLevel cannot be null or empty");
-		    }
-
-		    try {
-		    	Skill updateSkill = skillrepository.save(skillBody);
-		        return new Response(1, "success", updateSkill);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-
-		    return new Response(-1, "failed", "Failed to update Skill");
-		}
+	    public Response updateskill(SkillMaster skillBody) {
+	        try {
+	        	SkillMaster savedSkill = skillrepository.save(skillBody);
+	            return new Response(1, "success", savedSkill);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	        return new Response(-1, "failed","");
+	    }
 
 	 @Override
 	 public Response deleteskill(int skillId) {
 	     try {
-	         Optional<Skill> optionalSkill = skillrepository.findById(skillId);
+	         Optional<SkillMaster> optionalSkill = skillrepository.findById(skillId);
 
 	         if (optionalSkill.isPresent()) {
-	             Skill deletedSkill = optionalSkill.get();
+	             SkillMaster deletedSkill = optionalSkill.get();
 	             skillrepository.deleteById(skillId);
 	             return new Response(1, "Success", deletedSkill);
 	         } else {
@@ -104,6 +97,6 @@ public class SkillServiceImpl implements SkillService{
 	         return new Response(-1, "Failed to delete Skill: " ,"");
 	     }
 	 }
-
+	 
 
 }

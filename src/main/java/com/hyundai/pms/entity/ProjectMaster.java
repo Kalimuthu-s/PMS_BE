@@ -28,6 +28,8 @@ public class ProjectMaster {
 	private String customerName;
 	@Column(name = "project_name")
 	private String projectName;
+	@Column(name = "manager_id")
+	private String managerName;
 	@Column(name = "start_date")
 	private String startDate;
 	@Column(name = "end_date")
@@ -35,6 +37,4 @@ public class ProjectMaster {
 	@Column(name = "status")
 	private String status;
 	
-	
-
 }

@@ -3,24 +3,24 @@ package com.hyundai.pms.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.hyundai.pms.entity.FiltersDTO;
+import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.entity.SkillMaster;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
-import com.hyundai.pms.entity.Skill;
-import com.hyundai.pms.response.Response;
 
 public interface SkillService {
 	
-	public List<Skill> getAll();
+	public Response getAll(PaginationWebModel paginationWebModel);
 	
-    public Optional<Skill> getById(int skillid);
+	public Response getAllSkills();
 	
-    Response addskill(Skill skillbody);
+    public Optional<SkillMaster> getById(int skillid);
 	
-	Response updateskill(Skill skillbody);
+    Response addskill(SkillMaster skillbody);
+	
+	Response updateskill(SkillMaster skillbody);
 
 	Response deleteskill(int skillid);
 	
-	public Page<Skill> getAll(Pageable pageable);
-
 }
