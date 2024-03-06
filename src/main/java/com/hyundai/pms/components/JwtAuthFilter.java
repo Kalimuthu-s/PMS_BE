@@ -1,6 +1,7 @@
 package com.hyundai.pms.components;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,10 +17,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hyundai.pms.config.UserInfoUserDetailsService;
+import com.hyundai.pms.entity.UserMaster;
+import com.hyundai.pms.repository.UserRepository;
 import com.hyundai.pms.service.JwtService;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter{
+	
+	@Autowired
+	private UserRepository ur;
 	
     @Autowired
     private JwtService jwtService;
@@ -38,7 +44,8 @@ public class JwtAuthFilter extends OncePerRequestFilter{
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        	Optional<UserMaster> user = ur.findIdByName(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.get().getUserId());
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

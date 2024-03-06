@@ -1,6 +1,5 @@
 package com.hyundai.pms.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,45 +10,54 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.entity.TeamMaster;
 import com.hyundai.pms.service.TeamService;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 @CrossOrigin
 @RestController
+@RequestMapping(value = "/team")
 public class TeamController {
 	
 	@Autowired
 	private TeamService ts;
 	
-	@GetMapping("/getAllTeam")
-	public List<TeamMaster> getAllTeam() {
-		List<TeamMaster> list = ts.getAllTeam();
-		return list;
+	@PostMapping("/getAllTeam")
+	public Response getAllTeam(@RequestBody PaginationWebModel paginationWebModel) {
+		return ts.getAllTeam(paginationWebModel);
+	}
+	
+	@GetMapping("/getAllTeamOnly")
+	public Response getAllTeamOnly() {
+		return ts.getAllTeamOnly();
 	}
 	
 	@GetMapping("/getTeamById/{id}")
-	public Optional<TeamMaster> getTeamById(@PathVariable int id) {
+	public Response getTeamById(@PathVariable int id) {
 		Optional<TeamMaster> team=ts.getTeamById(id);
-		return team;
-		
+		return new Response(1, "Success", team);
 	}
 	
 	@PostMapping("/addTeam")
-	public TeamMaster addTeam(@RequestBody TeamMaster team) {
-		return ts.addTeam(team);
+	public Response addTeam(@RequestBody TeamMaster team) {
+		ts.addTeam(team);
+		return new Response(1, "Success", team);
 	}
 	
 	@PutMapping("/updateTeam")
-	public TeamMaster updateTeam(@RequestBody TeamMaster team) {
-		return ts.updateTeam(team);
+	public Response updateTeam(@RequestBody TeamMaster team) {
+		ts.updateTeam(team);
+		return new Response(1, "Success", team);
 	}
 	
 	@DeleteMapping("/deleteTeam/{id}")
-	public String deleteTeam(@PathVariable int id) {
+	public Response deleteTeam(@PathVariable int id) {
 		ts.deleteTeam(id);
-		return "Team Deleted";
+		return new Response(1, "Success", id);
 	}
 
 }

@@ -26,9 +26,10 @@ public class MenuMaster {
 	private int menuId;
 	@Column(name = "menu_name")
 	private String menuName;
-	@Column(name = "accessibility")
-	private String accessibility;
-	@Column(name = "role_id")
-	private int roleId;
-
+	@Column(name = "icon")
+	private String icon;
+	@Column(name = "access")
+	private String access;
+	@Column(name = "main_menu")
+	private String mainMenu;
 }

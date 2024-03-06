@@ -2,6 +2,7 @@ package com.hyundai.pms.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,16 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.pms.entity.PendingRequest;
-import com.hyundai.pms.response.Response;
+import com.hyundai.pms.entity.Response;
 import com.hyundai.pms.service.PendingRequestService;
-import com.hyundai.pms.serviceimpl.PendingRequestServiceImpl;
 
 @RestController
-@RequestMapping("/pendingrequest")
+@RequestMapping("/pendingRequest")
 @CrossOrigin(value="http://localhost:4200/")
 public class PendingRequestController {
 	
-	private final Logger logger = LoggerFactory.getLogger(PendingRequestServiceImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(PendingRequestController.class);
 	
 	@Autowired
 	private PendingRequestService pendingrequestservice;
@@ -45,11 +45,11 @@ public class PendingRequestController {
 	}
 	
 	@PostMapping("/add")
-	public String addrequest(@RequestBody PendingRequest pendingbody) {
+	public Response addrequest(@RequestBody PendingRequest pendingbody) {
 		logger.info("Adding new PendingRequest", pendingbody);
-		return pendingrequestservice.addpendingrequest(pendingbody);
+		PendingRequest pendingRequest = pendingrequestservice.addpendingrequest(pendingbody);
+		return new Response(1, "Success", pendingRequest);
 	}
-
 	
 	@PutMapping("/update")
 	public Response updaterequest(@RequestBody PendingRequest pendingbody) {
@@ -63,15 +63,9 @@ public class PendingRequestController {
 	}
 	
 	 @GetMapping("/search")
-	    public ResponseEntity<List<PendingRequest>> searchPendingRequests(
-	            @RequestParam(required = false) Integer pendingRequestId,
-	            @RequestParam(required = false) Integer empMonthId,
-	            @RequestParam(required = false) Integer managerId,
-	            @RequestParam(required = false) String status,
-	            @RequestParam(required = false) Date date) {
+	    public Response searchPendingRequests(@RequestParam String status) {
 
-	        List<PendingRequest> result = pendingrequestservice.searchPendingRequests(pendingRequestId, empMonthId, managerId, status, date);
-	        return ResponseEntity.ok(result);
+		 List<Map<String, Object>> result = pendingrequestservice.searchPendingRequests(status);
+	        return new Response(1, "Success", result);
 	    }
-
 }

@@ -1,26 +1,24 @@
 package com.hyundai.pms.service;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-
-import com.hyundai.pms.entity.Department;
-import com.hyundai.pms.response.Response;
+import com.hyundai.pms.entity.DepartmentMaster;
+import com.hyundai.pms.entity.Response;
+import com.hyundai.pms.webModel.PaginationWebModel;
 
 public interface DepartmentService {
-	
-	public List<Department> getAll();
-	
-    public Optional<Department> getById(int depId);
-	
-    Response addDepartment(Department depbody);
-	
-    Response updatedepartment(Department depbody);
 
-    Response deletedepartment(int depId);
+	public Response getAll(PaginationWebModel paginationWebModel);
+	
+	List<DepartmentMaster> getAllDepartments();
 
-	public Page<Department> getAll(Pageable pageable);
+	public Optional<DepartmentMaster> getById(int depId);
+
+	Response adddepartment(DepartmentMaster depbody);
+
+	Response updatedepartment(DepartmentMaster depbody);
+
+	Response deletedepartment(int depId);
 
 }
